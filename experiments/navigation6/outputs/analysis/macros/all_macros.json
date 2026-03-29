@@ -1,0 +1,3158 @@
+[
+  {
+    "macro_id": 0,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ]
+    ],
+    "support": 6,
+    "start_state": 4,
+    "end_state": 3
+  },
+  {
+    "macro_id": 1,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 6,
+    "start_state": 5,
+    "end_state": 4
+  },
+  {
+    "macro_id": 2,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ]
+    ],
+    "support": 5,
+    "start_state": 7,
+    "end_state": 1
+  },
+  {
+    "macro_id": 3,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 5,
+    "start_state": 7,
+    "end_state": 5
+  },
+  {
+    "macro_id": 4,
+    "sequence": [
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "support": 5,
+    "start_state": 5,
+    "end_state": 5
+  },
+  {
+    "macro_id": 5,
+    "sequence": [
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 5,
+    "start_state": 3,
+    "end_state": 7
+  },
+  {
+    "macro_id": 6,
+    "sequence": [
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 5,
+    "start_state": 6,
+    "end_state": 7
+  },
+  {
+    "macro_id": 7,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "support": 5,
+    "start_state": 4,
+    "end_state": 5
+  },
+  {
+    "macro_id": 8,
+    "sequence": [
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 5,
+    "start_state": 5,
+    "end_state": 7
+  },
+  {
+    "macro_id": 9,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 5,
+    "start_state": 4,
+    "end_state": 7
+  },
+  {
+    "macro_id": 10,
+    "sequence": [
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 4,
+    "start_state": 2,
+    "end_state": 5
+  },
+  {
+    "macro_id": 11,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ]
+    ],
+    "support": 4,
+    "start_state": 5,
+    "end_state": 8
+  },
+  {
+    "macro_id": 12,
+    "sequence": [
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 4,
+    "start_state": 8,
+    "end_state": 4
+  },
+  {
+    "macro_id": 13,
+    "sequence": [
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 4,
+    "start_state": 1,
+    "end_state": 5
+  },
+  {
+    "macro_id": 14,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ]
+    ],
+    "support": 4,
+    "start_state": 4,
+    "end_state": 6
+  },
+  {
+    "macro_id": 15,
+    "sequence": [
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ]
+    ],
+    "support": 4,
+    "start_state": 5,
+    "end_state": 5
+  },
+  {
+    "macro_id": 16,
+    "sequence": [
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 4,
+    "start_state": 6,
+    "end_state": 4
+  },
+  {
+    "macro_id": 17,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ]
+    ],
+    "support": 4,
+    "start_state": 7,
+    "end_state": 6
+  },
+  {
+    "macro_id": 18,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ]
+    ],
+    "support": 4,
+    "start_state": 4,
+    "end_state": 5
+  },
+  {
+    "macro_id": 19,
+    "sequence": [
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 4,
+    "start_state": 5,
+    "end_state": 7
+  },
+  {
+    "macro_id": 20,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ]
+    ],
+    "support": 4,
+    "start_state": 7,
+    "end_state": 5
+  },
+  {
+    "macro_id": 21,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 4,
+    "start_state": 4,
+    "end_state": 7
+  },
+  {
+    "macro_id": 22,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 4,
+    "start_state": 7,
+    "end_state": 7
+  },
+  {
+    "macro_id": 23,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 3,
+    "start_state": 4,
+    "end_state": 7
+  },
+  {
+    "macro_id": 24,
+    "sequence": [
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ]
+    ],
+    "support": 3,
+    "start_state": 7,
+    "end_state": 7
+  },
+  {
+    "macro_id": 25,
+    "sequence": [
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "support": 3,
+    "start_state": 4,
+    "end_state": 4
+  },
+  {
+    "macro_id": 26,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ]
+    ],
+    "support": 3,
+    "start_state": 5,
+    "end_state": 9
+  },
+  {
+    "macro_id": 27,
+    "sequence": [
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ]
+    ],
+    "support": 3,
+    "start_state": 7,
+    "end_state": 7
+  },
+  {
+    "macro_id": 28,
+    "sequence": [
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 3,
+    "start_state": 9,
+    "end_state": 4
+  },
+  {
+    "macro_id": 29,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        2
+      ]
+    ],
+    "support": 3,
+    "start_state": 7,
+    "end_state": 2
+  },
+  {
+    "macro_id": 30,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ]
+    ],
+    "support": 3,
+    "start_state": 4,
+    "end_state": 8
+  },
+  {
+    "macro_id": 31,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ]
+    ],
+    "support": 3,
+    "start_state": 5,
+    "end_state": 7
+  },
+  {
+    "macro_id": 32,
+    "sequence": [
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 3,
+    "start_state": 7,
+    "end_state": 4
+  },
+  {
+    "macro_id": 33,
+    "sequence": [
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 3,
+    "start_state": 8,
+    "end_state": 5
+  },
+  {
+    "macro_id": 34,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "support": 3,
+    "start_state": 7,
+    "end_state": 4
+  },
+  {
+    "macro_id": 35,
+    "sequence": [
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 3,
+    "start_state": 4,
+    "end_state": 5
+  },
+  {
+    "macro_id": 36,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ]
+    ],
+    "support": 3,
+    "start_state": 5,
+    "end_state": 7
+  },
+  {
+    "macro_id": 37,
+    "sequence": [
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 3,
+    "start_state": 7,
+    "end_state": 4
+  },
+  {
+    "macro_id": 38,
+    "sequence": [
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ]
+    ],
+    "support": 3,
+    "start_state": 2,
+    "end_state": 3
+  },
+  {
+    "macro_id": 39,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        2
+      ]
+    ],
+    "support": 3,
+    "start_state": 5,
+    "end_state": 2
+  },
+  {
+    "macro_id": 40,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ]
+    ],
+    "support": 3,
+    "start_state": 4,
+    "end_state": 7
+  },
+  {
+    "macro_id": 41,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 3,
+    "start_state": 5,
+    "end_state": 4
+  },
+  {
+    "macro_id": 42,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 3,
+    "start_state": 7,
+    "end_state": 5
+  },
+  {
+    "macro_id": 43,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 3,
+    "start_state": 5,
+    "end_state": 4
+  },
+  {
+    "macro_id": 44,
+    "sequence": [
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 3,
+    "start_state": 5,
+    "end_state": 4
+  },
+  {
+    "macro_id": 45,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 3,
+    "start_state": 4,
+    "end_state": 4
+  },
+  {
+    "macro_id": 46,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 3,
+    "start_state": 4,
+    "end_state": 4
+  },
+  {
+    "macro_id": 47,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 3,
+    "start_state": 7,
+    "end_state": 4
+  },
+  {
+    "macro_id": 48,
+    "sequence": [
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 2
+  },
+  {
+    "macro_id": 49,
+    "sequence": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 1,
+    "end_state": 4
+  },
+  {
+    "macro_id": 50,
+    "sequence": [
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 4
+  },
+  {
+    "macro_id": 51,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 2
+  },
+  {
+    "macro_id": 52,
+    "sequence": [
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 4
+  },
+  {
+    "macro_id": 53,
+    "sequence": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 1,
+    "end_state": 5
+  },
+  {
+    "macro_id": 54,
+    "sequence": [
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 3,
+    "end_state": 4
+  },
+  {
+    "macro_id": 55,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 1
+  },
+  {
+    "macro_id": 56,
+    "sequence": [
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 1,
+    "end_state": 7
+  },
+  {
+    "macro_id": 57,
+    "sequence": [
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ]
+    ],
+    "support": 2,
+    "start_state": 1,
+    "end_state": 3
+  },
+  {
+    "macro_id": 58,
+    "sequence": [
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ]
+    ],
+    "support": 2,
+    "start_state": 3,
+    "end_state": 9
+  },
+  {
+    "macro_id": 59,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 4
+  },
+  {
+    "macro_id": 60,
+    "sequence": [
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 5
+  },
+  {
+    "macro_id": 61,
+    "sequence": [
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 9,
+    "end_state": 5
+  },
+  {
+    "macro_id": 62,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 4
+  },
+  {
+    "macro_id": 63,
+    "sequence": [
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 5
+  },
+  {
+    "macro_id": 64,
+    "sequence": [
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 5
+  },
+  {
+    "macro_id": 65,
+    "sequence": [
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 4
+  },
+  {
+    "macro_id": 66,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 4
+  },
+  {
+    "macro_id": 67,
+    "sequence": [
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 7
+  },
+  {
+    "macro_id": 68,
+    "sequence": [
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ]
+    ],
+    "support": 2,
+    "start_state": 1,
+    "end_state": 8
+  },
+  {
+    "macro_id": 69,
+    "sequence": [
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 1,
+    "end_state": 5
+  },
+  {
+    "macro_id": 70,
+    "sequence": [
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 9
+  },
+  {
+    "macro_id": 71,
+    "sequence": [
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 3,
+    "end_state": 7
+  },
+  {
+    "macro_id": 72,
+    "sequence": [
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        2
+      ]
+    ],
+    "support": 2,
+    "start_state": 6,
+    "end_state": 2
+  },
+  {
+    "macro_id": 73,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 4
+  },
+  {
+    "macro_id": 74,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 5
+  },
+  {
+    "macro_id": 75,
+    "sequence": [
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 3
+  },
+  {
+    "macro_id": 76,
+    "sequence": [
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 2,
+    "end_state": 5
+  },
+  {
+    "macro_id": 77,
+    "sequence": [
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ]
+    ],
+    "support": 2,
+    "start_state": 8,
+    "end_state": 6
+  },
+  {
+    "macro_id": 78,
+    "sequence": [
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 5
+  },
+  {
+    "macro_id": 79,
+    "sequence": [
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ]
+    ],
+    "support": 2,
+    "start_state": 9,
+    "end_state": 6
+  },
+  {
+    "macro_id": 80,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 5
+  },
+  {
+    "macro_id": 81,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 5
+  },
+  {
+    "macro_id": 82,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 4
+  },
+  {
+    "macro_id": 83,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 5
+  },
+  {
+    "macro_id": 84,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 7
+  },
+  {
+    "macro_id": 85,
+    "sequence": [
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 8
+  },
+  {
+    "macro_id": 86,
+    "sequence": [
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 1,
+    "end_state": 7
+  },
+  {
+    "macro_id": 87,
+    "sequence": [
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 1,
+    "end_state": 7
+  },
+  {
+    "macro_id": 88,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 9
+  },
+  {
+    "macro_id": 89,
+    "sequence": [
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 7
+  },
+  {
+    "macro_id": 90,
+    "sequence": [
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 3,
+    "end_state": 4
+  },
+  {
+    "macro_id": 91,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 5
+  },
+  {
+    "macro_id": 92,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 3
+  },
+  {
+    "macro_id": 93,
+    "sequence": [
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 5
+  },
+  {
+    "macro_id": 94,
+    "sequence": [
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 2,
+    "end_state": 7
+  },
+  {
+    "macro_id": 95,
+    "sequence": [
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 8,
+    "end_state": 5
+  },
+  {
+    "macro_id": 96,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 5
+  },
+  {
+    "macro_id": 97,
+    "sequence": [
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 6
+  },
+  {
+    "macro_id": 98,
+    "sequence": [
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 9,
+    "end_state": 5
+  },
+  {
+    "macro_id": 99,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 5
+  },
+  {
+    "macro_id": 100,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 7
+  },
+  {
+    "macro_id": 101,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 8
+  },
+  {
+    "macro_id": 102,
+    "sequence": [
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 7
+  },
+  {
+    "macro_id": 103,
+    "sequence": [
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 1,
+    "end_state": 4
+  },
+  {
+    "macro_id": 104,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 7
+  },
+  {
+    "macro_id": 105,
+    "sequence": [
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 4
+  },
+  {
+    "macro_id": 106,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 3
+  },
+  {
+    "macro_id": 107,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 5
+  },
+  {
+    "macro_id": 108,
+    "sequence": [
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 7
+  },
+  {
+    "macro_id": 109,
+    "sequence": [
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 8,
+    "end_state": 7
+  },
+  {
+    "macro_id": 110,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 6
+  },
+  {
+    "macro_id": 111,
+    "sequence": [
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 5
+  },
+  {
+    "macro_id": 112,
+    "sequence": [
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 9,
+    "end_state": 7
+  },
+  {
+    "macro_id": 113,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 8
+  },
+  {
+    "macro_id": 114,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 7
+  },
+  {
+    "macro_id": 115,
+    "sequence": [
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 4
+  },
+  {
+    "macro_id": 116,
+    "sequence": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 4,
+    "end_state": 4
+  },
+  {
+    "macro_id": 117,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 5
+  },
+  {
+    "macro_id": 118,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 7
+  },
+  {
+    "macro_id": 119,
+    "sequence": [
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 8,
+    "end_state": 4
+  },
+  {
+    "macro_id": 120,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 5
+  },
+  {
+    "macro_id": 121,
+    "sequence": [
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 7
+  },
+  {
+    "macro_id": 122,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 7
+  },
+  {
+    "macro_id": 123,
+    "sequence": [
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 7,
+    "end_state": 4
+  },
+  {
+    "macro_id": 124,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 7
+  },
+  {
+    "macro_id": 125,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        9
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        7
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 7
+  },
+  {
+    "macro_id": 126,
+    "sequence": [
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        7
+      ],
+      [
+        7,
+        4
+      ]
+    ],
+    "support": 2,
+    "start_state": 5,
+    "end_state": 4
+  }
+]

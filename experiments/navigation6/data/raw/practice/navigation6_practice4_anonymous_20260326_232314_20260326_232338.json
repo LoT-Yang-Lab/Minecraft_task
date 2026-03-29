@@ -1,0 +1,14 @@
+{
+  "schema": "navigation6_practice4",
+  "participant_id": "anonymous_20260326_232314",
+  "session_start_iso": "2026-03-26T23:23:15.913264",
+  "session_end_iso": "2026-03-26T23:23:38.443489",
+  "duration_sec": 22.53,
+  "map_file": "map_1774095558.json",
+  "map_id": "map_1774095558",
+  "rounds_total": 2,
+  "min_visits": 2,
+  "min_trial_seconds": 300,
+  "round_summaries": [],
+  "steps": []
+}

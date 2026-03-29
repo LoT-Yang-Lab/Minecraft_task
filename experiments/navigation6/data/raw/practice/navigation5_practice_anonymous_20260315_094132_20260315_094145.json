@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-03-15T09:41:45.036019",
+  "total_records": 1,
+  "participant_id": "anonymous_20260315_094132",
+  "map_id": "map_1773511099",
+  "session_start_iso": "2026-03-15T09:41:32.901741",
+  "learning_pool_size": 12,
+  "test_pool_size": 6,
+  "phase_transition_criterion": "min_questions=8, accuracy>=0.8, consecutive>=3",
+  "records": [
+    {
+      "phase": "learning",
+      "trial_index": 1,
+      "map_id": "map_1773511099",
+      "question_id": "map_1773511099|2|move|northwest|1",
+      "current_code": 2,
+      "action_label": "向西北走",
+      "correct_next_code": 1,
+      "participant_choice": 1,
+      "correct": true,
+      "rt_ms": 9221.60530090332,
+      "attempt_count": 3,
+      "timestamp": 1773538902.4994164,
+      "options": [
+        8,
+        5,
+        1,
+        2,
+        7
+      ],
+      "first_response_ms": 6372.472047805786
+    }
+  ]
+}

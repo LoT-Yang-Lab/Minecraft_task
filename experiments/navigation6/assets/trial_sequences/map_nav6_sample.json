@@ -1,0 +1,92 @@
+{
+  "version": "1.0",
+  "map_id": "map_nav6_sample",
+  "map_file": "map_nav6_sample.json",
+  "generated_at": "2026-03-21 19:18:20",
+  "generator": {
+    "type": "balanced_dual_targets",
+    "seed": 42,
+    "min_distance": 1,
+    "distance_metric": "action_graph"
+  },
+  "total_trials": 10,
+  "codebook": [
+    {
+      "code": 1,
+      "gx": 0,
+      "gy": 0
+    },
+    {
+      "code": 2,
+      "gx": 3,
+      "gy": 0
+    },
+    {
+      "code": 3,
+      "gx": 3,
+      "gy": 3
+    },
+    {
+      "code": 4,
+      "gx": 6,
+      "gy": 0
+    },
+    {
+      "code": 5,
+      "gx": 6,
+      "gy": 3
+    }
+  ],
+  "trials": [
+    {
+      "trial_id": 1,
+      "targetA": 4,
+      "targetB": 2
+    },
+    {
+      "trial_id": 2,
+      "targetA": 2,
+      "targetB": 3
+    },
+    {
+      "trial_id": 3,
+      "targetA": 2,
+      "targetB": 3
+    },
+    {
+      "trial_id": 4,
+      "targetA": 5,
+      "targetB": 1
+    },
+    {
+      "trial_id": 5,
+      "targetA": 3,
+      "targetB": 4
+    },
+    {
+      "trial_id": 6,
+      "targetA": 4,
+      "targetB": 5
+    },
+    {
+      "trial_id": 7,
+      "targetA": 5,
+      "targetB": 1
+    },
+    {
+      "trial_id": 8,
+      "targetA": 3,
+      "targetB": 2
+    },
+    {
+      "trial_id": 9,
+      "targetA": 1,
+      "targetB": 4
+    },
+    {
+      "trial_id": 10,
+      "targetA": 1,
+      "targetB": 5
+    }
+  ]
+}

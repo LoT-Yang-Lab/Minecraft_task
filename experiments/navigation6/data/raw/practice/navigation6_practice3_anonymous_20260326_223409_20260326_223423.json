@@ -1,0 +1,38 @@
+{
+  "schema": "navigation6_practice3",
+  "participant_id": "anonymous_20260326_223409",
+  "session_start_iso": "2026-03-26T22:34:10.353029",
+  "session_end_iso": "2026-03-26T22:34:23.765035",
+  "duration_sec": 13.412,
+  "map_file": "map_1774095558.json",
+  "map_id": "map_1774095558",
+  "rounds_total": 2,
+  "min_visits": 2,
+  "round_summaries": [],
+  "steps": [
+    {
+      "round_index": 1,
+      "step_index": 1,
+      "t_sec": 1.597,
+      "from_code": 1,
+      "to_code": 7,
+      "action_label": "高铁（E） 下一站",
+      "action_key": "instant_transit_next",
+      "action_extra": 3,
+      "explore_rate": 0.2222222222222222,
+      "mastery_rate": 0.0
+    },
+    {
+      "round_index": 1,
+      "step_index": 2,
+      "t_sec": 2.137,
+      "from_code": 7,
+      "to_code": 9,
+      "action_label": "高铁（E） 下一站",
+      "action_key": "instant_transit_next",
+      "action_extra": 3,
+      "explore_rate": 0.3333333333333333,
+      "mastery_rate": 0.0
+    }
+  ]
+}

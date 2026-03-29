@@ -1,0 +1,197 @@
+{
+  "version": "1.0",
+  "map_id": "map_1773511099",
+  "map_file": "map_1773511099.json",
+  "generated_at": "2026-03-19 01:02:36",
+  "generator": {
+    "type": "balanced_dual_targets",
+    "seed": 20260319,
+    "min_distance": 2,
+    "distance_metric": "manhattan"
+  },
+  "total_trials": 27,
+  "codebook": [
+    {
+      "code": 1,
+      "gx": 8,
+      "gy": 14
+    },
+    {
+      "code": 2,
+      "gx": 10,
+      "gy": 17
+    },
+    {
+      "code": 3,
+      "gx": 12,
+      "gy": 8
+    },
+    {
+      "code": 4,
+      "gx": 12,
+      "gy": 14
+    },
+    {
+      "code": 5,
+      "gx": 14,
+      "gy": 11
+    },
+    {
+      "code": 6,
+      "gx": 16,
+      "gy": 8
+    },
+    {
+      "code": 7,
+      "gx": 16,
+      "gy": 14
+    },
+    {
+      "code": 8,
+      "gx": 18,
+      "gy": 17
+    },
+    {
+      "code": 9,
+      "gx": 20,
+      "gy": 14
+    }
+  ],
+  "trials": [
+    {
+      "trial_id": 1,
+      "targetA": 1,
+      "targetB": 2
+    },
+    {
+      "trial_id": 2,
+      "targetA": 8,
+      "targetB": 7
+    },
+    {
+      "trial_id": 3,
+      "targetA": 5,
+      "targetB": 3
+    },
+    {
+      "trial_id": 4,
+      "targetA": 1,
+      "targetB": 4
+    },
+    {
+      "trial_id": 5,
+      "targetA": 8,
+      "targetB": 7
+    },
+    {
+      "trial_id": 6,
+      "targetA": 4,
+      "targetB": 1
+    },
+    {
+      "trial_id": 7,
+      "targetA": 7,
+      "targetB": 3
+    },
+    {
+      "trial_id": 8,
+      "targetA": 9,
+      "targetB": 1
+    },
+    {
+      "trial_id": 9,
+      "targetA": 2,
+      "targetB": 3
+    },
+    {
+      "trial_id": 10,
+      "targetA": 6,
+      "targetB": 2
+    },
+    {
+      "trial_id": 11,
+      "targetA": 4,
+      "targetB": 1
+    },
+    {
+      "trial_id": 12,
+      "targetA": 3,
+      "targetB": 7
+    },
+    {
+      "trial_id": 13,
+      "targetA": 3,
+      "targetB": 2
+    },
+    {
+      "trial_id": 14,
+      "targetA": 9,
+      "targetB": 8
+    },
+    {
+      "trial_id": 15,
+      "targetA": 8,
+      "targetB": 6
+    },
+    {
+      "trial_id": 16,
+      "targetA": 5,
+      "targetB": 4
+    },
+    {
+      "trial_id": 17,
+      "targetA": 1,
+      "targetB": 4
+    },
+    {
+      "trial_id": 18,
+      "targetA": 7,
+      "targetB": 8
+    },
+    {
+      "trial_id": 19,
+      "targetA": 7,
+      "targetB": 8
+    },
+    {
+      "trial_id": 20,
+      "targetA": 6,
+      "targetB": 5
+    },
+    {
+      "trial_id": 21,
+      "targetA": 2,
+      "targetB": 6
+    },
+    {
+      "trial_id": 22,
+      "targetA": 2,
+      "targetB": 5
+    },
+    {
+      "trial_id": 23,
+      "targetA": 3,
+      "targetB": 9
+    },
+    {
+      "trial_id": 24,
+      "targetA": 5,
+      "targetB": 9
+    },
+    {
+      "trial_id": 25,
+      "targetA": 9,
+      "targetB": 6
+    },
+    {
+      "trial_id": 26,
+      "targetA": 6,
+      "targetB": 9
+    },
+    {
+      "trial_id": 27,
+      "targetA": 4,
+      "targetB": 5
+    }
+  ]
+}

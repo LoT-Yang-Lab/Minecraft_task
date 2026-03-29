@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><key id="d5" for="node" attr.name="dist_bin" attr.type="string"/>
+<key id="d4" for="node" attr.name="at_portal" attr.type="boolean"/>
+<key id="d3" for="node" attr.name="at_station" attr.type="boolean"/>
+<key id="d2" for="node" attr.name="phase" attr.type="string"/>
+<key id="d1" for="node" attr.name="pos_code" attr.type="long"/>
+<key id="d0" for="node" attr.name="count" attr.type="long"/>
+<graph edgedefault="directed"><node id="c1|ph=test|st=0|po=0|d=mid">
+  <data key="d0">1</data>
+  <data key="d1">1</data>
+  <data key="d2">test</data>
+  <data key="d3">False</data>
+  <data key="d4">False</data>
+  <data key="d5">mid</data>
+</node>
+<node id="c2|ph=test|st=0|po=0|d=near">
+  <data key="d0">1</data>
+  <data key="d1">2</data>
+  <data key="d2">test</data>
+  <data key="d3">False</data>
+  <data key="d4">False</data>
+  <data key="d5">near</data>
+</node>
+<node id="c3|ph=test|st=0|po=0|d=far">
+  <data key="d0">1</data>
+  <data key="d1">3</data>
+  <data key="d2">test</data>
+  <data key="d3">False</data>
+  <data key="d4">False</data>
+  <data key="d5">far</data>
+</node>
+</graph></graphml>
