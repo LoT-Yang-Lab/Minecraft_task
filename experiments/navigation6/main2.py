@@ -143,6 +143,8 @@ class _VisGraphWidget:
     def __init__(self):
         self.rect = pygame.Rect(0, 0, 300, 300)
         self._edge_hitboxes: List[Tuple[Tuple[str, str], Tuple[float, float], Tuple[float, float]]] = []
+        # 动态计算的角度映射（每次 draw 时根据可用动作数均匀分布）
+        self._current_angles: Dict[Tuple[str, str], float] = {}
         self._anim_active = False
         self._anim_start_time = 0.0
         self._anim_from_xy: Tuple[float, float] = (0, 0)
@@ -157,7 +159,9 @@ class _VisGraphWidget:
         cx = self.rect.centerx
         cy = self.rect.centery
         self._anim_from_xy = (float(cx), float(cy))
-        angle_deg = _MODE_DIR_ANGLES.get((mode, direction), 0.0)
+        # 使用动态均匀角度（由上次 draw 计算），回退到旧固定角度
+        angle_deg = self._current_angles.get((mode, direction),
+                                              _MODE_DIR_ANGLES.get((mode, direction), 0.0))
         angle_rad = _math.radians(angle_deg)
         end_x = cx + _VIS_LINE_LEN * _math.cos(angle_rad)
         end_y = cy + _VIS_LINE_LEN * _math.sin(angle_rad)
@@ -236,9 +240,17 @@ class _VisGraphWidget:
             return
 
         # 正常绘制：当前节点在中心，可用交通线从中心辐射
+        # 均匀分布角度：N 条线各占 360/N 度
+        n = len(available_mode_dirs)
+        self._current_angles.clear()
+        if n > 0:
+            for i, md in enumerate(available_mode_dirs):
+                # 从顶部 (-90°) 开始，顺时针均匀分布
+                self._current_angles[md] = -90.0 + (360.0 / n) * i
+
         for mode, direction in available_mode_dirs:
             color = _MODE_COLORS.get(mode, (200, 200, 200))
-            angle_deg = _MODE_DIR_ANGLES.get((mode, direction), 0.0)
+            angle_deg = self._current_angles[(mode, direction)]
             angle_rad = _math.radians(angle_deg)
             end_x = cx + _VIS_LINE_LEN * _math.cos(angle_rad)
             end_y = cy + _VIS_LINE_LEN * _math.sin(angle_rad)
