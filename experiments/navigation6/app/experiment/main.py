@@ -6,11 +6,11 @@ Navigation6 正式实验模块。
 2. 9 节点图实验主函数 main()
 
 图结构（graph9）：
-  1  2  3          网格双向连接（上/下/左/右）
-  4  5  6          四角单向环路 1→3→9→7→1
+  1  2  3          网格双向连接（公交前后/地铁前后）
+  4  5  6          四角单向环线 1→3→9→7→1
   7  8  9
 
-动作按键：上(Q)  下(W)  左(E)  右(R)  环路(T)
+动作按键：公交(前)(Q) 公交(后)(E) 地铁(前)(A) 地铁(后)(D) 环线(W)
 """
 from __future__ import annotations
 
@@ -148,37 +148,27 @@ import math as _math
 
 _KEY_TO_ACTION = {
     # 字母键
-    pygame.K_q: "上",
-    pygame.K_w: "下",
-    pygame.K_e: "左",
-    pygame.K_r: "右",
-    pygame.K_t: "环路",
-    # 方向键
-    pygame.K_UP: "上",
-    pygame.K_DOWN: "下",
-    pygame.K_LEFT: "左",
-    pygame.K_RIGHT: "右",
-    pygame.K_SPACE: "环路",
-    # 小键盘（numpad）
-    pygame.K_KP8: "上",
-    pygame.K_KP2: "下",
-    pygame.K_KP4: "左",
-    pygame.K_KP6: "右",
-    pygame.K_KP5: "环路",
-    # WASD
-    pygame.K_i: "上",
-    pygame.K_k: "下",
-    pygame.K_j: "左",
-    pygame.K_l: "右",
+    pygame.K_q: "公交(前)",
+    pygame.K_e: "公交(后)",
+    pygame.K_a: "地铁(前)",
+    pygame.K_d: "地铁(后)",
+    pygame.K_w: "环线",
 }
 
-# ── 动作对应的颜色（5 种动作 5 种颜色） ───────────────────
+# ── 动作对应的颜色（3 种交通工具 3 种颜色） ────────────────
+# 同一交通工具的前/后方向使用相同颜色
+_TRANSPORT_COLORS: Dict[str, Tuple[int, int, int]] = {
+    "公交": (60, 160, 255),      # 蓝色
+    "地铁": (80, 200, 120),      # 绿色
+    "环线": (180, 100, 240),     # 紫色
+}
+
 ACTION_COLORS: Dict[str, Tuple[int, int, int]] = {
-    "上": (60, 160, 255),      # 蓝色
-    "下": (255, 180, 50),      # 橙色
-    "左": (80, 200, 120),      # 绿色
-    "右": (220, 80, 80),       # 红色
-    "环路": (180, 100, 240),   # 紫色
+    "公交(前)": _TRANSPORT_COLORS["公交"],
+    "公交(后)": _TRANSPORT_COLORS["公交"],
+    "地铁(前)": _TRANSPORT_COLORS["地铁"],
+    "地铁(后)": _TRANSPORT_COLORS["地铁"],
+    "环线": _TRANSPORT_COLORS["环线"],
 }
 
 # ── 可视化参数 ──────────────────────────────────────────
@@ -190,11 +180,11 @@ _VIS_ANIM_DURATION = 0.3  # 动画持续时间（秒）
 
 # 动作在视觉图中的方向角度（从中心节点出发）
 _ACTION_ANGLES: Dict[str, float] = {
-    "上": -90.0,
-    "下": 90.0,
-    "左": 180.0,
-    "右": 0.0,
-    "环路": 45.0,  # 右下方向的弧线
+    "公交(前)": -90.0,
+    "公交(后)": 90.0,
+    "地铁(前)": 180.0,
+    "地铁(后)": 0.0,
+    "环线": 45.0,  # 右下方向的弧线
 }
 
 
@@ -396,12 +386,12 @@ class _VisGraphWidget:
         node_rect = node_surf.get_rect(center=(cx, cy))
         screen.blit(node_surf, node_rect)
 
-        # 图例
+        # 图例（按交通工具类型，3 种）
         legend_x = self.rect.x + 8
-        legend_y = self.rect.bottom - len(ACTION_COLORS) * 16 - 8
-        for act_name, act_color in ACTION_COLORS.items():
-            pygame.draw.line(screen, act_color, (legend_x, legend_y + 6), (legend_x + 16, legend_y + 6), 3)
-            legend_surf = font_sm.render(f" {act_name}", True, (180, 180, 195))
+        legend_y = self.rect.bottom - len(_TRANSPORT_COLORS) * 16 - 8
+        for transport_name, transport_color in _TRANSPORT_COLORS.items():
+            pygame.draw.line(screen, transport_color, (legend_x, legend_y + 6), (legend_x + 16, legend_y + 6), 3)
+            legend_surf = font_sm.render(f" {transport_name}", True, (180, 180, 195))
             screen.blit(legend_surf, (legend_x + 18, legend_y - 2))
             legend_y += 16
 
@@ -438,7 +428,7 @@ def _render_train_phase(
     screen.blit(font_sm.render(rate_text, True, (255, 255, 255)), (bar_x + 6, bar_y + 3))
     y += bar_h + 10
     y = _blit_wrapped(screen, font_sm,
-        "说明：点击彩色线或按快捷键选择动作。探索率达到 100% 后进入测试阶段。",
+        "说明：点击彩色线或按快捷键选择交通工具。探索率达到 100% 后进入测试阶段。",
         (190, 190, 210), pad_x, y, text_max_w)
     y += 10
     if last_action_msg:
@@ -483,7 +473,7 @@ def _render_test_phase(
         (180, 180, 200), pad_x, y, text_max_w)
     y += 10
     y = _blit_wrapped(screen, font_sm,
-        "点击彩色线或按快捷键选择下一步动作。",
+        "点击彩色线或按快捷键选择下一步交通工具。",
         (190, 190, 210), pad_x, y, text_max_w)
 
     # 可视化图
@@ -541,7 +531,7 @@ def main(
     pygame.key.stop_text_input()
     W, H = 800, 780
     screen = pygame.display.set_mode((W, H))
-    pygame.display.set_caption("Navigation6 — 点击线条或按键选择动作")
+    pygame.display.set_caption("Navigation6 — 点击线条或按键选择交通工具")
 
     font_lg = pygame.font.SysFont("SimHei", 26)
     font_md = pygame.font.SysFont("SimHei", 20)
@@ -739,7 +729,7 @@ def main(
 
         # 如果 KEYDOWN 没有捕获到字母键但 TEXTINPUT 有，则从 TEXTINPUT 构造虚拟按键
         # 这是为了兼容中文输入法开启时字母键被 IME 拦截的情况
-        _TEXT_TO_ACTION = {"q": "上", "w": "下", "e": "左", "r": "右", "t": "环路"}
+        _TEXT_TO_ACTION = {"q": "公交(前)", "e": "公交(后)", "a": "地铁(前)", "d": "地铁(后)", "w": "环线"}
         mapped_key_actions = {_KEY_TO_ACTION.get(ev.key) for ev in key_events if ev.type == pygame.KEYDOWN}
         for tev in text_events:
             ch = tev.text.lower()
@@ -749,8 +739,8 @@ def main(
                     def __init__(self, key_code):
                         self.type = pygame.KEYDOWN
                         self.key = key_code
-                fake_key = {"q": pygame.K_q, "w": pygame.K_w, "e": pygame.K_e,
-                            "r": pygame.K_r, "t": pygame.K_t}.get(ch)
+                fake_key = {"q": pygame.K_q, "e": pygame.K_e, "a": pygame.K_a,
+                            "d": pygame.K_d, "w": pygame.K_w}.get(ch)
                 if fake_key is not None:
                     key_events.append(_FakeKeyEvent(fake_key))
 

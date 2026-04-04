@@ -1,5 +1,5 @@
 """
-Navigation6 新版图结构：9 节点（3×3 网格 + 四角单向环路）。
+Navigation6 新版图结构：9 节点（3×3 网格 + 四角单向环线）。
 
 节点编号 1-9，布局：
   1  2  3
@@ -7,10 +7,13 @@ Navigation6 新版图结构：9 节点（3×3 网格 + 四角单向环路）。
   7  8  9
 
 连接规则：
-- 网格连接（双向）：上/下/左/右，仅相邻节点
-- 环路连接（单向）：1→3→9→7→1（四个角节点顺时针环）
+- 网格连接（双向）：公交(前/后) 控制行移动，地铁(前/后) 控制列移动
+- 环线连接（单向）：1→3→9→7→1（四个角节点顺时针环）
 
-5 种动作：上(Q)、下(W)、左(E)、右(R)、环路(T)
+3 种交通工具（5 种动作）：
+  公交(前)(Q) / 公交(后)(E)  ─ 行方向移动
+  地铁(前)(A) / 地铁(后)(D)  ─ 列方向移动
+  环线(W)                    ─ 四角单向环
 """
 from __future__ import annotations
 
@@ -34,17 +37,17 @@ _node_pos: Dict[int, Tuple[int, int]] = {
 }
 
 # ── 动作定义 ──────────────────────────────────────────────
-ACTION_NAMES = ["上", "下", "左", "右", "环路"]
+ACTION_NAMES = ["公交(前)", "公交(后)", "地铁(前)", "地铁(后)", "环线"]
 ACTION_KEYS = {
-    "上": "Q",
-    "下": "W",
-    "左": "E",
-    "右": "R",
-    "环路": "T",
+    "公交(前)": "Q",
+    "公交(后)": "E",
+    "地铁(前)": "A",
+    "地铁(后)": "D",
+    "环线": "W",
 }
 
 # ── 邻接表 ──────────────────────────────────────────────
-# 环路：1→3→9→7→1（顺时针单向）
+# 环线：1→3→9→7→1（顺时针单向）
 RING_NEXT: Dict[int, int] = {1: 3, 3: 9, 9: 7, 7: 1}
 RING_NODES: Set[int] = set(RING_NEXT.keys())
 
@@ -52,13 +55,13 @@ RING_NODES: Set[int] = set(RING_NEXT.keys())
 def _grid_neighbor(node: int, action: str) -> Optional[int]:
     """网格方向移动，返回目标节点或 None（越界）。"""
     r, c = _node_pos[node]
-    if action == "上":
+    if action == "公交(前)":
         r -= 1
-    elif action == "下":
+    elif action == "公交(后)":
         r += 1
-    elif action == "左":
+    elif action == "地铁(前)":
         c -= 1
-    elif action == "右":
+    elif action == "地铁(后)":
         c += 1
     else:
         return None
@@ -71,7 +74,7 @@ def get_next_node(node: int, action: str) -> Optional[int]:
     """
     从 node 执行 action，返回到达的节点；若该动作不可用返回 None。
     """
-    if action == "环路":
+    if action == "环线":
         return RING_NEXT.get(node)  # 非角节点返回 None
     return _grid_neighbor(node, action)
 
