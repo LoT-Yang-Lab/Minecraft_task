@@ -144,6 +144,8 @@ def execute_action(
 # 9 节点图实验 —— pygame 主程序
 # ═══════════════════════════════════════════════════════════
 
+import math as _math
+
 _KEY_TO_ACTION = {
     # 字母键
     pygame.K_q: "上",
@@ -168,6 +170,31 @@ _KEY_TO_ACTION = {
     pygame.K_k: "下",
     pygame.K_j: "左",
     pygame.K_l: "右",
+}
+
+# ── 动作对应的颜色（5 种动作 5 种颜色） ───────────────────
+ACTION_COLORS: Dict[str, Tuple[int, int, int]] = {
+    "上": (60, 160, 255),      # 蓝色
+    "下": (255, 180, 50),      # 橙色
+    "左": (80, 200, 120),      # 绿色
+    "右": (220, 80, 80),       # 红色
+    "环路": (180, 100, 240),   # 紫色
+}
+
+# ── 可视化参数 ──────────────────────────────────────────
+_VIS_NODE_RADIUS = 28
+_VIS_LINE_LEN = 100
+_VIS_LINE_WIDTH = 6
+_VIS_HIT_WIDTH = 18       # 线条点击判定宽度
+_VIS_ANIM_DURATION = 0.3  # 动画持续时间（秒）
+
+# 动作在视觉图中的方向角度（从中心节点出发）
+_ACTION_ANGLES: Dict[str, float] = {
+    "上": -90.0,
+    "下": 90.0,
+    "左": 180.0,
+    "右": 0.0,
+    "环路": 45.0,  # 右下方向的弧线
 }
 
 
@@ -201,14 +228,195 @@ def _blit_wrapped(
     return yy
 
 
+def _point_to_segment_distance(px: float, py: float,
+                                x1: float, y1: float,
+                                x2: float, y2: float) -> float:
+    """点 (px,py) 到线段 (x1,y1)-(x2,y2) 的最短距离。"""
+    dx, dy = x2 - x1, y2 - y1
+    if dx == 0 and dy == 0:
+        return _math.hypot(px - x1, py - y1)
+    t = max(0.0, min(1.0, ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)))
+    proj_x = x1 + t * dx
+    proj_y = y1 + t * dy
+    return _math.hypot(px - proj_x, py - proj_y)
+
+
+class _VisGraphWidget:
+    """
+    可视化小部件：在指定矩形区域内绘制当前节点和与之相连的动作线。
+    每条线的颜色对应不同的动作/交通方式。
+    被试可以点击线来选择动作。
+    支持移动动画。
+    """
+
+    def __init__(self):
+        self.rect = pygame.Rect(0, 0, 300, 300)
+        # 当前展示的线条 hit-test 信息: [(action, start_xy, end_xy), ...]
+        self._edge_hitboxes: List[Tuple[str, Tuple[float, float], Tuple[float, float]]] = []
+        # 动画状态
+        self._anim_active = False
+        self._anim_start_time = 0.0
+        self._anim_from_xy: Tuple[float, float] = (0, 0)
+        self._anim_to_xy: Tuple[float, float] = (0, 0)
+        self._anim_action = ""
+
+    def set_rect(self, rect: pygame.Rect):
+        self.rect = rect
+
+    def start_animation(self, action: str, from_node: int, to_node: int):
+        """启动从 from_node 到 to_node 的移动动画。"""
+        cx = self.rect.centerx
+        cy = self.rect.centery
+        self._anim_from_xy = (float(cx), float(cy))
+        angle_deg = _ACTION_ANGLES.get(action, 0.0)
+        angle_rad = _math.radians(angle_deg)
+        end_x = cx + _VIS_LINE_LEN * _math.cos(angle_rad)
+        end_y = cy + _VIS_LINE_LEN * _math.sin(angle_rad)
+        self._anim_to_xy = (end_x, end_y)
+        self._anim_action = action
+        self._anim_active = True
+        self._anim_start_time = time.perf_counter()
+
+    def is_animating(self) -> bool:
+        if not self._anim_active:
+            return False
+        elapsed = time.perf_counter() - self._anim_start_time
+        if elapsed >= _VIS_ANIM_DURATION:
+            self._anim_active = False
+            return False
+        return True
+
+    def handle_click(self, mouse_pos: Tuple[int, int], current_node: int) -> Optional[str]:
+        """
+        检测鼠标点击是否命中某条动作线。
+        返回命中的动作名，或 None。
+        """
+        if self.is_animating():
+            return None
+        mx, my = mouse_pos
+        if not self.rect.collidepoint(mx, my):
+            return None
+        best_action = None
+        best_dist = _VIS_HIT_WIDTH
+        for action, (sx, sy), (ex, ey) in self._edge_hitboxes:
+            d = _point_to_segment_distance(float(mx), float(my), sx, sy, ex, ey)
+            if d < best_dist:
+                best_dist = d
+                best_action = action
+        return best_action
+
+    def draw(self, screen: pygame.Surface, font_sm: pygame.font.Font,
+             current_node: int, explored_edges: Optional[Set[Tuple[int, str]]] = None,
+             hover_pos: Optional[Tuple[int, int]] = None):
+        """
+        绘制可视化图：当前节点 + 所有可用动作的线。
+        explored_edges: 训练阶段已探索边集合（用于标记已试过的边）
+        """
+        # 背景框
+        pygame.draw.rect(screen, (38, 40, 48), self.rect, border_radius=12)
+        pygame.draw.rect(screen, (70, 76, 90), self.rect, 2, border_radius=12)
+
+        cx = self.rect.centerx
+        cy = self.rect.centery
+
+        self._edge_hitboxes.clear()
+
+        # 检查是否在动画中
+        if self.is_animating():
+            elapsed = time.perf_counter() - self._anim_start_time
+            t = min(1.0, elapsed / _VIS_ANIM_DURATION)
+            # 缓动函数 (ease-out quad)
+            t = 1.0 - (1.0 - t) ** 2
+            anim_x = self._anim_from_xy[0] + (self._anim_to_xy[0] - self._anim_from_xy[0]) * t
+            anim_y = self._anim_from_xy[1] + (self._anim_to_xy[1] - self._anim_from_xy[1]) * t
+            # 绘制动画中的动作线（颜色对应）
+            color = ACTION_COLORS.get(self._anim_action, (200, 200, 200))
+            pygame.draw.line(screen, color,
+                             (int(self._anim_from_xy[0]), int(self._anim_from_xy[1])),
+                             (int(self._anim_to_xy[0]), int(self._anim_to_xy[1])),
+                             _VIS_LINE_WIDTH)
+            # 绘制移动中的节点标记
+            pygame.draw.circle(screen, (255, 255, 255), (int(anim_x), int(anim_y)), _VIS_NODE_RADIUS)
+            pygame.draw.circle(screen, color, (int(anim_x), int(anim_y)), _VIS_NODE_RADIUS, 3)
+            label = code_to_station_name(current_node)
+            txt = font_sm.render(label, True, (40, 40, 50))
+            txt_r = txt.get_rect(center=(int(anim_x), int(anim_y)))
+            screen.blit(txt, txt_r)
+            return
+
+        # 正常绘制：当前节点在中心，周围是可用动作的线
+        # 先绘制线条
+        for act in ACTION_NAMES:
+            dest = get_next_node(current_node, act)
+            if dest is None:
+                continue
+            color = ACTION_COLORS.get(act, (200, 200, 200))
+            angle_deg = _ACTION_ANGLES.get(act, 0.0)
+            angle_rad = _math.radians(angle_deg)
+            end_x = cx + _VIS_LINE_LEN * _math.cos(angle_rad)
+            end_y = cy + _VIS_LINE_LEN * _math.sin(angle_rad)
+
+            # 检查鼠标是否悬停在此线上
+            line_alpha = 255
+            line_width = _VIS_LINE_WIDTH
+            if hover_pos and self.rect.collidepoint(hover_pos[0], hover_pos[1]):
+                d = _point_to_segment_distance(float(hover_pos[0]), float(hover_pos[1]),
+                                                float(cx), float(cy), end_x, end_y)
+                if d < _VIS_HIT_WIDTH:
+                    line_width = _VIS_LINE_WIDTH + 3  # 加粗高亮
+
+            # 已探索标记（颜色变淡）
+            if explored_edges and (current_node, act) in explored_edges:
+                # 降低饱和度
+                color = tuple(min(255, c + 60) for c in color)
+
+            pygame.draw.line(screen, color, (cx, cy), (int(end_x), int(end_y)), line_width)
+            self._edge_hitboxes.append((act, (float(cx), float(cy)), (end_x, end_y)))
+
+            # 在线末端画一个小圆点（表示可达的未知节点）
+            pygame.draw.circle(screen, color, (int(end_x), int(end_y)), 8)
+
+            # 在线旁标注动作名和按键
+            key = ACTION_KEYS[act]
+            label_x = cx + (_VIS_LINE_LEN + 20) * _math.cos(angle_rad)
+            label_y = cy + (_VIS_LINE_LEN + 20) * _math.sin(angle_rad)
+
+            tried_mark = ""
+            if explored_edges and (current_node, act) in explored_edges:
+                tried_mark = " ✓"
+            act_label = f"[{key}] {act}{tried_mark}"
+            act_surf = font_sm.render(act_label, True, color)
+            act_rect = act_surf.get_rect(center=(int(label_x), int(label_y)))
+            screen.blit(act_surf, act_rect)
+
+        # 绘制中心节点
+        pygame.draw.circle(screen, (255, 255, 255), (cx, cy), _VIS_NODE_RADIUS)
+        pygame.draw.circle(screen, (100, 140, 220), (cx, cy), _VIS_NODE_RADIUS, 3)
+        node_label = code_to_station_name(current_node)
+        node_surf = font_sm.render(node_label, True, (40, 40, 50))
+        node_rect = node_surf.get_rect(center=(cx, cy))
+        screen.blit(node_surf, node_rect)
+
+        # 图例
+        legend_x = self.rect.x + 8
+        legend_y = self.rect.bottom - len(ACTION_COLORS) * 16 - 8
+        for act_name, act_color in ACTION_COLORS.items():
+            pygame.draw.line(screen, act_color, (legend_x, legend_y + 6), (legend_x + 16, legend_y + 6), 3)
+            legend_surf = font_sm.render(f" {act_name}", True, (180, 180, 195))
+            screen.blit(legend_surf, (legend_x + 18, legend_y - 2))
+            legend_y += 16
+
+
 # ── 渲染各阶段 ───────────────────────────────────────────
 
 def _render_train_phase(
     screen, font_lg, font_md, font_sm, pad_x, text_max_w,
     current_node, train_goal, explored_edges, total_edges,
-    last_action_msg,
+    last_action_msg, vis_widget: _VisGraphWidget,
+    hover_pos: Optional[Tuple[int, int]] = None,
 ):
-    """绘制训练阶段界面，返回无。"""
+    """绘制训练阶段界面（含可视化图）。"""
+    W, H = screen.get_size()
     rate = len(explored_edges) / total_edges if total_edges > 0 else 0.0
     y = 16
     y = _blit_wrapped(screen, font_lg, "训练阶段 — 自由探索", (220, 220, 255), pad_x, y, text_max_w)
@@ -231,35 +439,31 @@ def _render_train_phase(
     screen.blit(font_sm.render(rate_text, True, (255, 255, 255)), (bar_x + 6, bar_y + 3))
     y += bar_h + 10
     y = _blit_wrapped(screen, font_sm,
-        "说明：选择动作后会告知你移动到了哪个站点。探索率达到 100% 后进入测试阶段。",
+        "说明：点击彩色线或按快捷键选择动作。探索率达到 100% 后进入测试阶段。",
         (190, 190, 210), pad_x, y, text_max_w)
     y += 10
     if last_action_msg:
         y = _blit_wrapped(screen, font_md, last_action_msg, (255, 220, 140), pad_x, y, text_max_w)
         y += 8
-    y += 6
-    y = _blit_wrapped(screen, font_md, "可选动作：", (210, 210, 225), pad_x, y, text_max_w)
-    y += 4
-    for act in ACTION_NAMES:
-        dest = get_next_node(current_node, act)
-        key = ACTION_KEYS[act]
-        if dest is not None:
-            tried = (current_node, act) in explored_edges
-            mark = "✓" if tried else "  "
-            color = (160, 160, 170) if tried else (225, 225, 210)
-            y = _blit_wrapped(screen, font_sm, f"  [{key}] {act}  {mark}", color, pad_x, y, text_max_w)
-        else:
-            y = _blit_wrapped(screen, font_sm, f"  [{key}] {act}  （不可用）", (90, 90, 100), pad_x, y, text_max_w)
-        y += 2
-    y += 10
-    _blit_wrapped(screen, font_sm, "ESC：退出（数据会保存）", (140, 140, 160), pad_x, y, text_max_w)
+
+    # 可视化图
+    vis_top = y + 6
+    vis_size = min(W - pad_x * 2, H - vis_top - 30, 340)
+    vis_rect = pygame.Rect((W - vis_size) // 2, vis_top, vis_size, vis_size)
+    vis_widget.set_rect(vis_rect)
+    vis_widget.draw(screen, font_sm, current_node, explored_edges=explored_edges, hover_pos=hover_pos)
+
+    _blit_wrapped(screen, font_sm, "ESC：退出（数据会保存）", (140, 140, 160), pad_x, H - 24, text_max_w)
 
 
 def _render_test_phase(
     screen, font_lg, font_md, font_sm, pad_x, text_max_w,
     test_trial_idx, test_trials_count, test_current_node, test_goal_node, test_step,
+    vis_widget: _VisGraphWidget,
+    hover_pos: Optional[Tuple[int, int]] = None,
 ):
-    """绘制测试阶段界面。"""
+    """绘制测试阶段界面（含可视化图）。"""
+    W, H = screen.get_size()
     y = 16
     y = _blit_wrapped(screen, font_lg, "测试阶段 — 导航任务", (255, 220, 200), pad_x, y, text_max_w)
     y += 8
@@ -278,19 +482,19 @@ def _render_test_phase(
     y = _blit_wrapped(screen, font_sm,
         f"本试次已用步数：{test_step}",
         (180, 180, 200), pad_x, y, text_max_w)
-    y += 12
-    y = _blit_wrapped(screen, font_md, "可选动作：", (210, 210, 225), pad_x, y, text_max_w)
-    y += 4
-    for act in ACTION_NAMES:
-        dest = get_next_node(test_current_node, act)
-        key = ACTION_KEYS[act]
-        if dest is not None:
-            y = _blit_wrapped(screen, font_sm, f"  [{key}] {act}", (225, 225, 210), pad_x, y, text_max_w)
-        else:
-            y = _blit_wrapped(screen, font_sm, f"  [{key}] {act}  （不可用）", (90, 90, 100), pad_x, y, text_max_w)
-        y += 2
     y += 10
-    _blit_wrapped(screen, font_sm, "ESC：退出（数据会保存）", (140, 140, 160), pad_x, y, text_max_w)
+    y = _blit_wrapped(screen, font_sm,
+        "点击彩色线或按快捷键选择下一步动作。",
+        (190, 190, 210), pad_x, y, text_max_w)
+
+    # 可视化图
+    vis_top = y + 6
+    vis_size = min(W - pad_x * 2, H - vis_top - 30, 340)
+    vis_rect = pygame.Rect((W - vis_size) // 2, vis_top, vis_size, vis_size)
+    vis_widget.set_rect(vis_rect)
+    vis_widget.draw(screen, font_sm, test_current_node, hover_pos=hover_pos)
+
+    _blit_wrapped(screen, font_sm, "ESC：退出（数据会保存）", (140, 140, 160), pad_x, H - 24, text_max_w)
 
 
 def _render_finished_phase(
@@ -336,9 +540,9 @@ def main(
     # 禁用 IME 文本输入模式，确保中文输入法下 Q/W/E/R/T 等字母键
     # 能正常产生 KEYDOWN 事件，而不是被输入法拦截
     pygame.key.stop_text_input()
-    W, H = 760, 680
+    W, H = 800, 780
     screen = pygame.display.set_mode((W, H))
-    pygame.display.set_caption("Navigation6 — 上(Q) 下(W) 左(E) 右(R) 环路(T)")
+    pygame.display.set_caption("Navigation6 — 点击线条或按键选择动作")
 
     font_lg = pygame.font.SysFont("SimHei", 26)
     font_md = pygame.font.SysFont("SimHei", 20)
@@ -405,6 +609,9 @@ def main(
     test_trial_steps: List[int] = []
     phase_prompt_time = time.perf_counter()
 
+    # ── 可视化图小部件 ────────────────────────────────────
+    vis_widget = _VisGraphWidget()
+
     def exploration_rate():
         return len(explored_edges) / total_edges if total_edges > 0 else 0.0
 
@@ -441,10 +648,85 @@ def main(
             test_current_node, test_goal_node = s, g
             phase_prompt_time = time.perf_counter()
 
+    def _process_action(action: str, source: str = "key"):
+        """处理一个动作（来自键盘或鼠标点击），返回是否有效执行。"""
+        nonlocal current_node, train_step, last_action_msg, train_goal
+        nonlocal test_current_node, test_step, phase_prompt_time, phase
+
+        if vis_widget.is_animating():
+            return False
+
+        if phase == PHASE_TRAIN:
+            rt_ms = (time.perf_counter() - phase_prompt_time) * 1000.0
+            dest = get_next_node(current_node, action)
+            if dest is not None:
+                explored_edges.add((current_node, action))
+                train_step += 1
+                log_step(PHASE_TRAIN, 0, train_step, current_node, action, dest, True,
+                         {"exploration_rate": exploration_rate(),
+                          "reaction_time_ms": round(rt_ms, 3),
+                          "input_source": source})
+                # 启动动画
+                vis_widget.start_animation(action, current_node, dest)
+                last_action_msg = (
+                    f"执行「{action}」→ 移动到 "
+                    f"{code_to_station_name(dest)}（编码 {dest}）"
+                )
+                current_node = dest
+                if current_node == train_goal:
+                    train_goal = random.choice(
+                        [n for n in NODE_IDS if n != current_node]
+                    )
+                if exploration_rate() >= 1.0:
+                    phase_prompt_time = start_test_phase()
+                else:
+                    phase_prompt_time = time.perf_counter()
+                return True
+            else:
+                last_action_msg = f"动作「{action}」在当前位置不可用。"
+                log_step(PHASE_TRAIN, 0, train_step, current_node, action, None, False,
+                         {"reaction_time_ms": round(rt_ms, 3), "input_source": source})
+                phase_prompt_time = time.perf_counter()
+                return False
+
+        elif phase == PHASE_TEST:
+            rt_ms = (time.perf_counter() - phase_prompt_time) * 1000.0
+            dest = get_next_node(test_current_node, action)
+            if dest is not None:
+                test_step += 1
+                log_step(PHASE_TEST, test_trial_idx + 1, test_step,
+                         test_current_node, action, dest, True,
+                         {"goal_node": test_goal_node,
+                          "reaction_time_ms": round(rt_ms, 3),
+                          "input_source": source,
+                          "optimal_distance": bfs_distance(
+                              test_trials[test_trial_idx][0], test_goal_node)})
+                # 启动动画
+                vis_widget.start_animation(action, test_current_node, dest)
+                test_current_node = dest
+                if test_current_node == test_goal_node:
+                    advance_test_trial()
+                else:
+                    phase_prompt_time = time.perf_counter()
+                return True
+            else:
+                log_step(PHASE_TEST, test_trial_idx + 1, test_step,
+                         test_current_node, action, None, False,
+                         {"goal_node": test_goal_node,
+                          "reaction_time_ms": round(rt_ms, 3),
+                          "input_source": source})
+                phase_prompt_time = time.perf_counter()
+                return False
+
+        return False
+
     # ══════════════════════════════════════════════════════
     # 主循环：事件收集 → 状态更新 → 渲染
     # ══════════════════════════════════════════════════════
     while running:
+        # 获取鼠标位置用于悬停高亮
+        hover_pos = pygame.mouse.get_pos()
+
         # 1. 收集事件
         events = pygame.event.get()
         for ev in events:
@@ -454,6 +736,7 @@ def main(
         # 过滤出按键事件 + TEXTINPUT 事件（IME 兼容）
         key_events = [ev for ev in events if ev.type == pygame.KEYDOWN]
         text_events = [ev for ev in events if ev.type == pygame.TEXTINPUT]
+        click_events = [ev for ev in events if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1]
 
         # 如果 KEYDOWN 没有捕获到字母键但 TEXTINPUT 有，则从 TEXTINPUT 构造虚拟按键
         # 这是为了兼容中文输入法开启时字母键被 IME 拦截的情况
@@ -472,81 +755,30 @@ def main(
                 if fake_key is not None:
                     key_events.append(_FakeKeyEvent(fake_key))
 
-        if key_events:
-            print(f"[DEBUG] 收到 {len(key_events)} 个按键事件: "
-                  f"{[pygame.key.name(ev.key) for ev in key_events]}, "
-                  f"phase={phase}", flush=True)
-
         if not running:
             break
 
-        # 2. 处理按键
+        # 2. 处理鼠标点击（选择动作线）
+        if not vis_widget.is_animating():
+            for cev in click_events:
+                if phase in (PHASE_TRAIN, PHASE_TEST):
+                    cur = current_node if phase == PHASE_TRAIN else test_current_node
+                    clicked_action = vis_widget.handle_click(cev.pos, cur)
+                    if clicked_action is not None:
+                        _process_action(clicked_action, source="click")
+                        break
+
+        # 3. 处理按键
         for ev in key_events:
             if ev.key == pygame.K_ESCAPE:
                 running = False
                 break
 
-            if phase == PHASE_TRAIN:
-                action = _KEY_TO_ACTION.get(ev.key)
-                print(f"[DEBUG] TRAIN: key={pygame.key.name(ev.key)}, "
-                      f"mapped_action={action}, current_node={current_node}",
-                      flush=True)
-                if action is None:
-                    continue
-                rt_ms = (time.perf_counter() - phase_prompt_time) * 1000.0
-                dest = get_next_node(current_node, action)
-                print(f"[DEBUG] TRAIN: action={action}, dest={dest}", flush=True)
-                if dest is not None:
-                    explored_edges.add((current_node, action))
-                    train_step += 1
-                    log_step(PHASE_TRAIN, 0, train_step, current_node, action, dest, True,
-                             {"exploration_rate": exploration_rate(), "reaction_time_ms": round(rt_ms, 3)})
-                    last_action_msg = (
-                        f"执行「{action}」→ 移动到 "
-                        f"{code_to_station_name(dest)}（编码 {dest}）"
-                    )
-                    current_node = dest
-                    print(f"[DEBUG] TRAIN: 移动成功! new current_node={current_node}, "
-                          f"last_action_msg={last_action_msg}", flush=True)
-                    if current_node == train_goal:
-                        train_goal = random.choice(
-                            [n for n in NODE_IDS if n != current_node]
-                        )
-                    if exploration_rate() >= 1.0:
-                        phase_prompt_time = start_test_phase()
-                    else:
-                        phase_prompt_time = time.perf_counter()
-                else:
-                    last_action_msg = f"动作「{action}」在当前位置不可用。"
-                    log_step(PHASE_TRAIN, 0, train_step, current_node, action, None, False,
-                             {"reaction_time_ms": round(rt_ms, 3)})
-                    print(f"[DEBUG] TRAIN: 动作不可用", flush=True)
-                    phase_prompt_time = time.perf_counter()
-
-            elif phase == PHASE_TEST:
+            if phase in (PHASE_TRAIN, PHASE_TEST):
                 action = _KEY_TO_ACTION.get(ev.key)
                 if action is None:
                     continue
-                rt_ms = (time.perf_counter() - phase_prompt_time) * 1000.0
-                dest = get_next_node(test_current_node, action)
-                if dest is not None:
-                    test_step += 1
-                    log_step(PHASE_TEST, test_trial_idx + 1, test_step,
-                             test_current_node, action, dest, True,
-                             {"goal_node": test_goal_node,
-                              "reaction_time_ms": round(rt_ms, 3),
-                              "optimal_distance": bfs_distance(
-                                  test_trials[test_trial_idx][0], test_goal_node)})
-                    test_current_node = dest
-                    if test_current_node == test_goal_node:
-                        advance_test_trial()
-                    else:
-                        phase_prompt_time = time.perf_counter()
-                else:
-                    log_step(PHASE_TEST, test_trial_idx + 1, test_step,
-                             test_current_node, action, None, False,
-                             {"goal_node": test_goal_node, "reaction_time_ms": round(rt_ms, 3)})
-                    phase_prompt_time = time.perf_counter()
+                _process_action(action, source="key")
 
             elif phase == PHASE_FINISHED:
                 pass  # ESC already handled above
@@ -554,19 +786,20 @@ def main(
         if not running:
             break
 
-        # 3. 渲染
+        # 4. 渲染
         screen.fill((28, 28, 32))
         if phase == PHASE_TRAIN:
             _render_train_phase(
                 screen, font_lg, font_md, font_sm, pad_x, text_max_w,
                 current_node, train_goal, explored_edges, total_edges,
-                last_action_msg,
+                last_action_msg, vis_widget, hover_pos=hover_pos,
             )
         elif phase == PHASE_TEST:
             _render_test_phase(
                 screen, font_lg, font_md, font_sm, pad_x, text_max_w,
                 test_trial_idx, len(test_trials),
                 test_current_node, test_goal_node, test_step,
+                vis_widget, hover_pos=hover_pos,
             )
         elif phase == PHASE_FINISHED:
             _render_finished_phase(
