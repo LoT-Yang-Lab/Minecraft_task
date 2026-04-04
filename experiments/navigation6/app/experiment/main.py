@@ -370,30 +370,26 @@ class _VisGraphWidget:
 
             line_width = _VIS_LINE_WIDTH
 
+            # 已探索标记（颜色变淡）
+            if explored_edges and (current_node, act) in explored_edges:
+                color = tuple(min(255, c + 60) for c in color)
+
             if is_available:
-                # 可用动作：正常颜色，可点击
-                # 检查鼠标是否悬停在此线上
+                # 可用动作：可点击，悬停高亮
                 if hover_pos and self.rect.collidepoint(hover_pos[0], hover_pos[1]):
                     d = _point_to_segment_distance(float(hover_pos[0]), float(hover_pos[1]),
                                                     float(cx), float(cy), end_x, end_y)
                     if d < _VIS_HIT_WIDTH:
                         line_width = _VIS_LINE_WIDTH + 3  # 加粗高亮
 
-                # 已探索标记（颜色变淡）
-                if explored_edges and (current_node, act) in explored_edges:
-                    color = tuple(min(255, c + 60) for c in color)
-
                 # 只有可用动作才加入点击检测
                 self._edge_hitboxes.append((act, (float(cx), float(cy)), (end_x, end_y)))
-            else:
-                # 不可用动作：灰色半透明，不加入点击检测
-                color = (80, 80, 90)
-                line_width = max(2, _VIS_LINE_WIDTH - 2)
+            # 不可用动作：保持原色，但不加入点击检测（点击无反应）
 
             pygame.draw.line(screen, color, (cx, cy), (int(end_x), int(end_y)), line_width)
 
             # 在线末端画一个小圆点
-            pygame.draw.circle(screen, color, (int(end_x), int(end_y)), 8 if is_available else 5)
+            pygame.draw.circle(screen, color, (int(end_x), int(end_y)), 8)
 
             # 在线旁标注动作名和按键
             key = ACTION_KEYS[act]
