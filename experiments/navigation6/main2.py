@@ -3,12 +3,14 @@
 
 该版本是较新的被试界面：
 - 不再使用 Graph9 的“上/下/左/右/环路”动作文案；
-- 而是使用交通方式动作：公交、轻轨、高铁；
+- 而是使用交通方式动作：公交、地铁、环线；
 - 支持由外部脚本注入预先规划好的 (start, goal) 试次序列与 session 元数据。
+- 包含示意性可视化小部件，被试可点击彩色线选择交通工具。
 """
 from __future__ import annotations
 
 import datetime
+import math as _math
 import os
 import random
 import re
@@ -56,6 +58,216 @@ _KEY_TO_TRANSIT_MODE = {
 }
 
 _MAX_ACTIONS_PER_TRIAL = 10
+
+# ── 交通工具显示名称与颜色（与 main.py 保持一致） ───────────
+_MODE_DISPLAY_NAME: Dict[str, str] = {
+    "bus": "公交",
+    "light_rail": "地铁",
+    "metro": "环线",
+}
+
+_MODE_COLORS: Dict[str, Tuple[int, int, int]] = {
+    "bus": (60, 160, 255),       # 蓝色
+    "light_rail": (80, 200, 120),  # 绿色
+    "metro": (180, 100, 240),    # 紫色
+}
+
+# 每种 (mode, direction) 组合在示意图中的固定角度
+_MODE_DIR_ANGLES: Dict[Tuple[str, str], float] = {
+    ("bus", "next"): -90.0,      # 上
+    ("bus", "prev"): 90.0,       # 下
+    ("light_rail", "next"): 180.0,  # 左
+    ("light_rail", "prev"): 0.0,    # 右
+    ("metro", "next"): 45.0,     # 右下
+}
+
+# 每种 (mode, direction) 的显示标签与按键
+_MODE_DIR_LABEL: Dict[Tuple[str, str], str] = {
+    ("bus", "next"): "公交(前)",
+    ("bus", "prev"): "公交(后)",
+    ("light_rail", "next"): "地铁(前)",
+    ("light_rail", "prev"): "地铁(后)",
+    ("metro", "next"): "环线",
+}
+
+_MODE_DIR_KEY: Dict[Tuple[str, str], str] = {
+    ("bus", "next"): "Q",
+    ("bus", "prev"): "E",
+    ("light_rail", "next"): "A",
+    ("light_rail", "prev"): "D",
+    ("metro", "next"): "W",
+}
+
+# ── 可视化参数 ──────────────────────────────────────────
+_VIS_NODE_RADIUS = 28
+_VIS_LINE_LEN = 100
+_VIS_LINE_WIDTH = 6
+_VIS_HIT_WIDTH = 18
+_VIS_ANIM_DURATION = 0.3
+
+
+def _point_to_segment_distance(px: float, py: float,
+                                x1: float, y1: float,
+                                x2: float, y2: float) -> float:
+    """点 (px,py) 到线段 (x1,y1)-(x2,y2) 的最短距离。"""
+    dx, dy = x2 - x1, y2 - y1
+    if dx == 0 and dy == 0:
+        return _math.hypot(px - x1, py - y1)
+    t = max(0.0, min(1.0, ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)))
+    proj_x = x1 + t * dx
+    proj_y = y1 + t * dy
+    return _math.hypot(px - proj_x, py - proj_y)
+
+
+class _VisGraphWidget:
+    """
+    示意性可视化小部件（main2 版）。
+    在指定矩形区域内，以当前站点为中心绘制可用交通工具的彩色线条。
+    线条位置为示意性布局，不反映地图实际结构。
+    被试可以点击线条来选择交通工具。
+    """
+
+    def __init__(self):
+        self.rect = pygame.Rect(0, 0, 300, 300)
+        self._edge_hitboxes: List[Tuple[Tuple[str, str], Tuple[float, float], Tuple[float, float]]] = []
+        self._anim_active = False
+        self._anim_start_time = 0.0
+        self._anim_from_xy: Tuple[float, float] = (0, 0)
+        self._anim_to_xy: Tuple[float, float] = (0, 0)
+        self._anim_color: Tuple[int, int, int] = (200, 200, 200)
+
+    def set_rect(self, rect: pygame.Rect):
+        self.rect = rect
+
+    def start_animation(self, mode: str, direction: str):
+        """启动移动动画。"""
+        cx = self.rect.centerx
+        cy = self.rect.centery
+        self._anim_from_xy = (float(cx), float(cy))
+        angle_deg = _MODE_DIR_ANGLES.get((mode, direction), 0.0)
+        angle_rad = _math.radians(angle_deg)
+        end_x = cx + _VIS_LINE_LEN * _math.cos(angle_rad)
+        end_y = cy + _VIS_LINE_LEN * _math.sin(angle_rad)
+        self._anim_to_xy = (end_x, end_y)
+        self._anim_color = _MODE_COLORS.get(mode, (200, 200, 200))
+        self._anim_active = True
+        self._anim_start_time = time.perf_counter()
+
+    def is_animating(self) -> bool:
+        if not self._anim_active:
+            return False
+        elapsed = time.perf_counter() - self._anim_start_time
+        if elapsed >= _VIS_ANIM_DURATION:
+            self._anim_active = False
+            return False
+        return True
+
+    def handle_click(self, mouse_pos: Tuple[int, int]) -> Optional[Tuple[str, str]]:
+        """
+        检测鼠标点击是否命中某条交通工具线。
+        返回命中的 (mode, direction)，或 None。
+        """
+        if self.is_animating():
+            return None
+        mx, my = mouse_pos
+        if not self.rect.collidepoint(mx, my):
+            return None
+        best_key = None
+        best_dist = _VIS_HIT_WIDTH
+        for mode_dir, (sx, sy), (ex, ey) in self._edge_hitboxes:
+            d = _point_to_segment_distance(float(mx), float(my), sx, sy, ex, ey)
+            if d < best_dist:
+                best_dist = d
+                best_key = mode_dir
+        return best_key
+
+    def draw(
+        self,
+        screen: pygame.Surface,
+        font_sm: pygame.font.Font,
+        current_code: int,
+        available_mode_dirs: List[Tuple[str, str]],
+        hover_pos: Optional[Tuple[int, int]] = None,
+    ):
+        """
+        绘制示意性可视化图：当前站点在中心 + 可用交通工具的彩色线。
+        available_mode_dirs: 当前站点可用的 [(mode, direction), ...] 列表。
+        """
+        # 背景框
+        pygame.draw.rect(screen, (38, 40, 48), self.rect, border_radius=12)
+        pygame.draw.rect(screen, (70, 76, 90), self.rect, 2, border_radius=12)
+
+        cx = self.rect.centerx
+        cy = self.rect.centery
+
+        self._edge_hitboxes.clear()
+
+        # 动画中
+        if self.is_animating():
+            elapsed = time.perf_counter() - self._anim_start_time
+            t = min(1.0, elapsed / _VIS_ANIM_DURATION)
+            eased = 1.0 - (1.0 - t) ** 2
+            anim_x = self._anim_from_xy[0] + (self._anim_to_xy[0] - self._anim_from_xy[0]) * eased
+            anim_y = self._anim_from_xy[1] + (self._anim_to_xy[1] - self._anim_from_xy[1]) * eased
+            color = self._anim_color
+            pygame.draw.line(screen, color,
+                             (int(self._anim_from_xy[0]), int(self._anim_from_xy[1])),
+                             (int(self._anim_to_xy[0]), int(self._anim_to_xy[1])),
+                             _VIS_LINE_WIDTH)
+            pygame.draw.circle(screen, (255, 255, 255), (int(anim_x), int(anim_y)), _VIS_NODE_RADIUS)
+            pygame.draw.circle(screen, color, (int(anim_x), int(anim_y)), _VIS_NODE_RADIUS, 3)
+            label = code_to_station_name(current_code)
+            txt = font_sm.render(label, True, (40, 40, 50))
+            txt_r = txt.get_rect(center=(int(anim_x), int(anim_y)))
+            screen.blit(txt, txt_r)
+            return
+
+        # 正常绘制：当前节点在中心，可用交通线从中心辐射
+        for mode, direction in available_mode_dirs:
+            color = _MODE_COLORS.get(mode, (200, 200, 200))
+            angle_deg = _MODE_DIR_ANGLES.get((mode, direction), 0.0)
+            angle_rad = _math.radians(angle_deg)
+            end_x = cx + _VIS_LINE_LEN * _math.cos(angle_rad)
+            end_y = cy + _VIS_LINE_LEN * _math.sin(angle_rad)
+
+            line_width = _VIS_LINE_WIDTH
+            if hover_pos and self.rect.collidepoint(hover_pos[0], hover_pos[1]):
+                d = _point_to_segment_distance(float(hover_pos[0]), float(hover_pos[1]),
+                                                float(cx), float(cy), end_x, end_y)
+                if d < _VIS_HIT_WIDTH:
+                    line_width = _VIS_LINE_WIDTH + 3
+
+            pygame.draw.line(screen, color, (cx, cy), (int(end_x), int(end_y)), line_width)
+            self._edge_hitboxes.append(((mode, direction), (float(cx), float(cy)), (end_x, end_y)))
+
+            pygame.draw.circle(screen, color, (int(end_x), int(end_y)), 8)
+
+            key = _MODE_DIR_KEY.get((mode, direction), "?")
+            display_label = _MODE_DIR_LABEL.get((mode, direction), f"{mode}_{direction}")
+            label_x = cx + (_VIS_LINE_LEN + 20) * _math.cos(angle_rad)
+            label_y = cy + (_VIS_LINE_LEN + 20) * _math.sin(angle_rad)
+            act_label = f"[{key}] {display_label}"
+            act_surf = font_sm.render(act_label, True, color)
+            act_rect = act_surf.get_rect(center=(int(label_x), int(label_y)))
+            screen.blit(act_surf, act_rect)
+
+        # 中心节点
+        pygame.draw.circle(screen, (255, 255, 255), (cx, cy), _VIS_NODE_RADIUS)
+        pygame.draw.circle(screen, (100, 140, 220), (cx, cy), _VIS_NODE_RADIUS, 3)
+        node_label = code_to_station_name(current_code)
+        node_surf = font_sm.render(node_label, True, (40, 40, 50))
+        node_rect = node_surf.get_rect(center=(cx, cy))
+        screen.blit(node_surf, node_rect)
+
+        # 图例（3 种交通工具）
+        legend_x = self.rect.x + 8
+        legend_y = self.rect.bottom - len(_MODE_COLORS) * 16 - 8
+        for mode, mode_color in _MODE_COLORS.items():
+            display_name = _MODE_DISPLAY_NAME.get(mode, mode)
+            pygame.draw.line(screen, mode_color, (legend_x, legend_y + 6), (legend_x + 16, legend_y + 6), 3)
+            legend_surf = font_sm.render(f" {display_name}", True, (180, 180, 195))
+            screen.blit(legend_surf, (legend_x + 18, legend_y - 2))
+            legend_y += 16
 
 
 def _blit_wrapped(
@@ -126,7 +338,7 @@ def _key_name_for_action(mode: str, action_key: str) -> str:
         return "Q" if is_next else "E"
     if mode == "light_rail":
         return "A" if is_next else "D"
-    # 高铁（metro）单向，按键固定 W
+    # 环线（metro）单向，按键固定 W
     return "W"
 
 
@@ -222,6 +434,31 @@ def _generate_test_trials(
     return out
 
 
+def _get_available_mode_dirs(
+    game: GameNavigation6,
+) -> List[Tuple[str, str]]:
+    """返回当前位置可用的 (mode, direction) 对列表。"""
+    actions = get_available_actions(game, include_bidirectional_for_surface=True)
+    modes = list(getattr(game, "transit_modes", []) or [])
+    result: List[Tuple[str, str]] = []
+    seen: Set[Tuple[str, str]] = set()
+    for _label, akey, extra in actions:
+        if extra is None:
+            continue
+        li = int(extra) if not isinstance(extra, int) else extra
+        if li < 0 or li >= len(modes):
+            continue
+        mode = modes[li]
+        direction = "next"
+        if akey in ("instant_transit_prev", "instant_subway_prev"):
+            direction = "prev"
+        key = (mode, direction)
+        if key not in seen:
+            seen.add(key)
+            result.append(key)
+    return result
+
+
 def main(
     test_trials_override: Optional[List[Tuple[int, int]]] = None,
     session_metadata: Optional[Dict[str, Any]] = None,
@@ -230,9 +467,9 @@ def main(
 ) -> Optional[str]:
     pygame.init()
     pygame.key.stop_text_input()
-    W, H = 800, 700
+    W, H = 800, 780
     screen = pygame.display.set_mode((W, H))
-    pygame.display.set_caption("Navigation6 Main2 — 地图交通测试")
+    pygame.display.set_caption("Navigation6 — 点击线条或按键选择交通工具")
 
     font_lg = pygame.font.SysFont("SimHei", 26)
     font_md = pygame.font.SysFont("SimHei", 20)
@@ -367,14 +604,84 @@ def main(
         next_start, next_goal = test_trials[test_trial_idx]
         _start_trial(next_start, next_goal)
 
+    # ── 可视化小部件 ────────────────────────────────────
+    vis_widget = _VisGraphWidget()
+
     running = True
     while running:
+        hover_pos = pygame.mouse.get_pos()
         events = pygame.event.get()
         for ev in events:
             if ev.type == pygame.QUIT:
                 running = False
 
-        for ev in events:
+        key_events = [ev for ev in events if ev.type == pygame.KEYDOWN]
+        text_events = [ev for ev in events if ev.type == pygame.TEXTINPUT]
+        click_events = [ev for ev in events if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1]
+
+        # IME 兼容：将 TEXTINPUT 转换为虚拟按键
+        _TEXT_TO_KEY = {"q": pygame.K_q, "e": pygame.K_e, "a": pygame.K_a,
+                        "d": pygame.K_d, "w": pygame.K_w}
+        mapped_keys = {ev.key for ev in key_events}
+        for tev in text_events:
+            ch = tev.text.lower()
+            if ch in _TEXT_TO_KEY and _TEXT_TO_KEY[ch] not in mapped_keys:
+                class _FakeKeyEvent:
+                    def __init__(self, key_code):
+                        self.type = pygame.KEYDOWN
+                        self.key = key_code
+                key_events.append(_FakeKeyEvent(_TEXT_TO_KEY[ch]))
+
+        # 处理鼠标点击（选择交通工具线）
+        if not vis_widget.is_animating() and phase == PHASE_TEST:
+            for cev in click_events:
+                clicked = vis_widget.handle_click(cev.pos)
+                if clicked is not None:
+                    mode, want_dir = clicked
+                    actions = get_available_actions(game, include_bidirectional_for_surface=True)
+                    chosen_idx = _pick_action_idx_by_mode(actions, game, mode, want_dir)
+                    current_code = cell_to_code.get((game.player_x, game.player_y), 0)
+                    if chosen_idx is not None:
+                        action = actions[chosen_idx]
+                        ok = execute_action(game, action)
+                        if ok:
+                            new_code = cell_to_code.get((game.player_x, game.player_y), 0)
+                            if trial_first_move_latency_ms is None:
+                                trial_first_move_latency_ms = int(round((time.time() - trial_start_wall_time) * 1000))
+                            test_step += 1
+                            start_code, _goal = test_trials[test_trial_idx]
+                            vis_widget.start_animation(mode, want_dir)
+                            log_step(
+                                PHASE_TEST, test_trial_idx + 1, test_step,
+                                current_code, action[0], new_code, True,
+                                {
+                                    "goal_node": test_goal_node,
+                                    "optimal_distance": _shortest_distance(neighbors, start_code, test_goal_node),
+                                    "action_key": action[1],
+                                    "action_extra": action[2],
+                                    "input_source": "click",
+                                    "reaction_time_ms": trial_first_move_latency_ms if test_step == 1 else None,
+                                    "elapsed_trial_time_ms": int(round((time.time() - trial_start_wall_time) * 1000)),
+                                    "max_actions": _MAX_ACTIONS_PER_TRIAL,
+                                },
+                            )
+                            if new_code == test_goal_node:
+                                _finalize_current_trial(reached_goal=True, end_code=new_code)
+                            elif test_step >= _MAX_ACTIONS_PER_TRIAL:
+                                log_step(
+                                    PHASE_TEST, test_trial_idx + 1, test_step,
+                                    new_code, "trial_cap_reached", new_code, True,
+                                    {
+                                        "goal_node": test_goal_node,
+                                        "max_actions": _MAX_ACTIONS_PER_TRIAL,
+                                        "latency_to_first_move_ms": trial_first_move_latency_ms,
+                                        "total_response_time_ms": int(round((time.time() - trial_start_wall_time) * 1000)),
+                                    },
+                                )
+                                _finalize_current_trial(reached_goal=False, end_code=new_code)
+                    break
+
+        for ev in key_events:
             if ev.type != pygame.KEYDOWN:
                 continue
             if ev.key == pygame.K_ESCAPE:
@@ -423,6 +730,7 @@ def main(
                 trial_first_move_latency_ms = int(round((time.time() - trial_start_wall_time) * 1000))
             test_step += 1
             start_code, _goal = test_trials[test_trial_idx]
+            vis_widget.start_animation(mode, want_dir)
             log_step(
                 PHASE_TEST,
                 test_trial_idx + 1,
@@ -436,6 +744,7 @@ def main(
                     "optimal_distance": _shortest_distance(neighbors, start_code, test_goal_node),
                     "action_key": action[1],
                     "action_extra": action[2],
+                    "input_source": "key",
                     "reaction_time_ms": trial_first_move_latency_ms if test_step == 1 else None,
                     "elapsed_trial_time_ms": int(round((time.time() - trial_start_wall_time) * 1000)),
                     "max_actions": _MAX_ACTIONS_PER_TRIAL,
@@ -465,10 +774,8 @@ def main(
         y = 16
         if phase == PHASE_TEST:
             current_code = cell_to_code.get((game.player_x, game.player_y), 0)
-            y = _blit_wrapped(screen, font_lg, "测试阶段 — 地图交通导航", (255, 220, 200), pad_x, y, text_max_w)
-            y += 6
-            y = _blit_wrapped(screen, font_sm, f"地图：{map_id}", (180, 190, 210), pad_x, y, text_max_w)
-            y += 4
+            y = _blit_wrapped(screen, font_lg, "测试阶段 — 导航任务", (255, 220, 200), pad_x, y, text_max_w)
+            y += 8
             y = _blit_wrapped(
                 screen,
                 font_md,
@@ -502,27 +809,19 @@ def main(
                 text_max_w,
             )
             y += 10
-            y = _blit_wrapped(screen, font_md, "按键：公交 Q/E  ·  轻轨 A/D  ·  高铁 W", (210, 210, 225), pad_x, y, text_max_w)
-            y += 6
-            y = _blit_wrapped(screen, font_md, "当前可执行动作：", (210, 210, 225), pad_x, y, text_max_w)
-            y += 4
-            actions = get_available_actions(game, include_bidirectional_for_surface=True)
-            if not actions:
-                y = _blit_wrapped(screen, font_sm, "  （当前站点无可用交通动作）", (120, 130, 145), pad_x, y, text_max_w)
-            else:
-                modes = list(getattr(game, "transit_modes", []) or [])
-                for label, action_key, extra in actions:
-                    mode = "metro"
-                    if extra is not None:
-                        li = int(extra) if not isinstance(extra, int) else extra
-                        if 0 <= li < len(modes):
-                            mode = modes[li]
-                    key_name = _key_name_for_action(mode, action_key)
-                    clean_label = _clean_option_label(label)
-                    y = _blit_wrapped(screen, font_sm, f"  [{key_name}] {clean_label}", (225, 225, 210), pad_x, y, text_max_w)
-                    y += 2
-            y += 10
-            _blit_wrapped(screen, font_sm, "ESC：退出（数据会保存）", (140, 140, 160), pad_x, y, text_max_w)
+            y = _blit_wrapped(screen, font_sm,
+                "点击彩色线或按快捷键选择下一步交通工具。",
+                (190, 190, 210), pad_x, y, text_max_w)
+
+            # 可视化图
+            available_mode_dirs = _get_available_mode_dirs(game)
+            vis_top = y + 6
+            vis_size = min(W - pad_x * 2, H - vis_top - 30, 340)
+            vis_rect = pygame.Rect((W - vis_size) // 2, vis_top, vis_size, vis_size)
+            vis_widget.set_rect(vis_rect)
+            vis_widget.draw(screen, font_sm, current_code, available_mode_dirs, hover_pos=hover_pos)
+
+            _blit_wrapped(screen, font_sm, "ESC：退出（数据会保存）", (140, 140, 160), pad_x, H - 24, text_max_w)
         else:
             y = 60
             y = _blit_wrapped(screen, font_lg, "实验结束", (220, 255, 220), pad_x, y, text_max_w)
