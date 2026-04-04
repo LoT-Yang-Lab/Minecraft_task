@@ -140,7 +140,7 @@ def main() -> int:
 
     print("Navigation6 proposal-5 五个 session 实验运行器")
     print("说明：仅执行导航试次；合成任务保留在 session 设计中，但在运行时跳过。")
-    print("按键：公交 Q/E ｜ 轻轨 A/D ｜ 高铁 W")
+    print("按键：公交 Q/E ｜ 地铁 A/D ｜ 环线 W")
     if args.dry_run:
         print("[INFO] 当前为 dry-run：只检查并打印 schedule，不启动 pygame。")
 

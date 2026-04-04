@@ -703,7 +703,7 @@ def main() -> None:
         y = _draw_wrapped(
             screen,
             font_md,
-            "按键：公交 Q/E  ·  轻轨 A/D  ·  高铁 W",
+            "按键：公交 Q/E  ·  地铁 A/D  ·  环线 W",
             text_left,
             y,
             text_w,

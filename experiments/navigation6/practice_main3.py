@@ -651,7 +651,7 @@ def main() -> None:
         y = _draw_wrapped(
             screen,
             font_md,
-            "可选动作按键：公交(Q/W)  轻轨(A/S)  高铁(Z/X)",
+            "可选动作按键：公交(Q/E)  地铁(A/D)  环线(W)",
             text_left,
             y,
             text_w,

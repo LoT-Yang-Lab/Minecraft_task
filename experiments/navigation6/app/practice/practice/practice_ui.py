@@ -515,7 +515,7 @@ class PracticeUI:
         y_top = MARGIN
         phase_text = "学习阶段" if phase == PracticePhase.LEARNING else "测试阶段"
         phase_color = (120, 180, 255) if phase == PracticePhase.LEARNING else (160, 200, 255)
-        title = self.font_lg.render("Navigation6 练习（公交/地铁/轻轨）", True, (240, 240, 255))
+        title = self.font_lg.render("Navigation6 练习（公交/地铁/环线）", True, (240, 240, 255))
         self.screen.blit(title, (MARGIN, y_top))
         badge = self.font_sm.render(phase_text, True, phase_color)
         # 阶段标签单独放在标题下一行，避免在同一行时被遮挡。

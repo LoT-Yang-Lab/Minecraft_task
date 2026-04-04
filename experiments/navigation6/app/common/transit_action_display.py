@@ -1,20 +1,24 @@
 """
 正式实验与练习共用的「按交通方式」动作文案（含被试按键）。
-地铁在界面中称为「高铁」，与 Q/W/E 按键说明一致。
+
+三种交通工具：
+- 公交（bus）：Q(前) / E(后)
+- 地铁（light_rail）：A(前) / D(后)
+- 环线（metro）：W
 """
 from typing import Dict
 
-# 与正式实验按键对应：公交 Q、轻轨 W、高铁（地铁）E
+# 与正式实验按键对应：公交 Q/E、地铁 A/D、环线 W
 TRANSIT_MODE_ACTION_LABEL: Dict[str, str] = {
-    "bus": "公交（Q）",
-    "light_rail": "轻轨（W）",
-    "metro": "高铁（E）",
+    "bus": "公交",
+    "light_rail": "地铁",
+    "metro": "环线",
 }
 
 TRANSIT_MODE_KEY_LETTER: Dict[str, str] = {
     "bus": "Q",
-    "light_rail": "W",
-    "metro": "E",
+    "light_rail": "A",
+    "metro": "W",
 }
 
 
@@ -30,8 +34,8 @@ def transit_mode_action_with_direction_label(mode: str, direction: str) -> str:
     """
     base = transit_mode_action_display_label(mode)
     if direction == "prev":
-        return f"{base} 上一站"
-    return f"{base} 下一站"
+        return f"{base}(后)"
+    return f"{base}(前)"
 
 
 def transit_mode_key_letter(mode: str) -> str:
