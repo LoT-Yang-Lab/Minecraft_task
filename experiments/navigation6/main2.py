@@ -70,7 +70,7 @@ class _FakeKeyEvent:
         self.type = pygame.KEYDOWN
         self.key = key_code
 
-_MAX_ACTIONS_PER_TRIAL = 10
+_MAX_ACTIONS_PER_TRIAL = None  # 无步数限制
 
 # ── 交通工具显示名称与颜色（与 main.py 保持一致） ───────────
 _MODE_DISPLAY_NAME: Dict[str, str] = {
@@ -239,16 +239,22 @@ class _VisGraphWidget:
             screen.blit(txt, txt_r)
             return
 
-        # 正常绘制：当前节点在中心，可用交通线从中心辐射
-        # 均匀分布角度：N 条线各占 360/N 度
-        n = len(available_mode_dirs)
+        # 正常绘制：当前节点在中心，始终展示全部5种交通线
+        # 全部5种 (mode, direction) 组合
+        all_mode_dirs: List[Tuple[str, str]] = [
+            ("bus", "next"), ("bus", "prev"),
+            ("light_rail", "next"), ("light_rail", "prev"),
+            ("metro", "next"),
+        ]
+        available_set = set(available_mode_dirs)
+        n = len(all_mode_dirs)
         self._current_angles.clear()
-        if n > 0:
-            for i, md in enumerate(available_mode_dirs):
-                # 从顶部 (-90°) 开始，顺时针均匀分布
-                self._current_angles[md] = -90.0 + (360.0 / n) * i
+        for i, md in enumerate(all_mode_dirs):
+            # 从顶部 (-90°) 开始，顺时针均匀分布
+            self._current_angles[md] = -90.0 + (360.0 / n) * i
 
-        for mode, direction in available_mode_dirs:
+        for mode, direction in all_mode_dirs:
+            is_available = (mode, direction) in available_set
             color = _MODE_COLORS.get(mode, (200, 200, 200))
             angle_deg = self._current_angles[(mode, direction)]
             angle_rad = _math.radians(angle_deg)
@@ -256,16 +262,25 @@ class _VisGraphWidget:
             end_y = cy + _VIS_LINE_LEN * _math.sin(angle_rad)
 
             line_width = _VIS_LINE_WIDTH
-            if hover_pos and self.rect.collidepoint(hover_pos[0], hover_pos[1]):
-                d = _point_to_segment_distance(float(hover_pos[0]), float(hover_pos[1]),
-                                                float(cx), float(cy), end_x, end_y)
-                if d < _VIS_HIT_WIDTH:
-                    line_width = _VIS_LINE_WIDTH + 3
+
+            if is_available:
+                # 可用动作：正常颜色，可点击
+                if hover_pos and self.rect.collidepoint(hover_pos[0], hover_pos[1]):
+                    d = _point_to_segment_distance(float(hover_pos[0]), float(hover_pos[1]),
+                                                    float(cx), float(cy), end_x, end_y)
+                    if d < _VIS_HIT_WIDTH:
+                        line_width = _VIS_LINE_WIDTH + 3
+
+                # 只有可用动作才加入点击检测
+                self._edge_hitboxes.append(((mode, direction), (float(cx), float(cy)), (end_x, end_y)))
+            else:
+                # 不可用动作：灰色，不加入点击检测
+                color = (80, 80, 90)
+                line_width = max(2, _VIS_LINE_WIDTH - 2)
 
             pygame.draw.line(screen, color, (cx, cy), (int(end_x), int(end_y)), line_width)
-            self._edge_hitboxes.append(((mode, direction), (float(cx), float(cy)), (end_x, end_y)))
 
-            pygame.draw.circle(screen, color, (int(end_x), int(end_y)), 8)
+            pygame.draw.circle(screen, color, (int(end_x), int(end_y)), 8 if is_available else 5)
 
             key = _MODE_DIR_KEY.get((mode, direction), "?")
             display_label = _MODE_DIR_LABEL.get((mode, direction), f"{mode}_{direction}")
@@ -686,18 +701,6 @@ def main(
                             )
                             if new_code == test_goal_node:
                                 _finalize_current_trial(reached_goal=True, end_code=new_code)
-                            elif test_step >= _MAX_ACTIONS_PER_TRIAL:
-                                log_step(
-                                    PHASE_TEST, test_trial_idx + 1, test_step,
-                                    new_code, "trial_cap_reached", new_code, True,
-                                    {
-                                        "goal_node": test_goal_node,
-                                        "max_actions": _MAX_ACTIONS_PER_TRIAL,
-                                        "latency_to_first_move_ms": trial_first_move_latency_ms,
-                                        "total_response_time_ms": int(round((time.time() - trial_start_wall_time) * 1000)),
-                                    },
-                                )
-                                _finalize_current_trial(reached_goal=False, end_code=new_code)
                     break
 
         for ev in key_events:
@@ -771,23 +774,6 @@ def main(
             )
             if new_code == test_goal_node:
                 _finalize_current_trial(reached_goal=True, end_code=new_code)
-            elif test_step >= _MAX_ACTIONS_PER_TRIAL:
-                log_step(
-                    PHASE_TEST,
-                    test_trial_idx + 1,
-                    test_step,
-                    new_code,
-                    "trial_cap_reached",
-                    new_code,
-                    True,
-                    {
-                        "goal_node": test_goal_node,
-                        "max_actions": _MAX_ACTIONS_PER_TRIAL,
-                        "latency_to_first_move_ms": trial_first_move_latency_ms,
-                        "total_response_time_ms": int(round((time.time() - trial_start_wall_time) * 1000)),
-                    },
-                )
-                _finalize_current_trial(reached_goal=False, end_code=new_code)
 
         screen.fill((28, 28, 32))
         y = 16
@@ -821,7 +807,7 @@ def main(
             y = _blit_wrapped(
                 screen,
                 font_sm,
-                f"本试次已用步数：{test_step} / {_MAX_ACTIONS_PER_TRIAL}",
+                f"本试次已用步数：{test_step}",
                 (180, 180, 200),
                 pad_x,
                 y,

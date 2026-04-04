@@ -349,42 +349,51 @@ class _VisGraphWidget:
             screen.blit(txt, txt_r)
             return
 
-        # 正常绘制：当前节点在中心，周围是可用动作的线
-        # 收集可用动作，然后均匀分布角度
-        available_acts = [act for act in ACTION_NAMES if get_next_node(current_node, act) is not None]
-        n = len(available_acts)
+        # 正常绘制：当前节点在中心，周围是全部5种动作的线
+        # 始终展示全部5种连线，固定角度分布
+        all_acts = list(ACTION_NAMES)
+        n = len(all_acts)
+        available_set = {act for act in ACTION_NAMES if get_next_node(current_node, act) is not None}
         self._current_angles.clear()
-        if n > 0:
-            for i, act in enumerate(available_acts):
-                # 从顶部 (-90°) 开始，顺时针均匀分布
-                self._current_angles[act] = -90.0 + (360.0 / n) * i
+        for i, act in enumerate(all_acts):
+            # 从顶部 (-90°) 开始，顺时针均匀分布
+            self._current_angles[act] = -90.0 + (360.0 / n) * i
 
-        # 先绘制线条
-        for act in available_acts:
+        # 先绘制线条（全部5种）
+        for act in all_acts:
+            is_available = act in available_set
             color = ACTION_COLORS.get(act, (200, 200, 200))
             angle_deg = self._current_angles[act]
             angle_rad = _math.radians(angle_deg)
             end_x = cx + _VIS_LINE_LEN * _math.cos(angle_rad)
             end_y = cy + _VIS_LINE_LEN * _math.sin(angle_rad)
 
-            # 检查鼠标是否悬停在此线上
-            line_alpha = 255
             line_width = _VIS_LINE_WIDTH
-            if hover_pos and self.rect.collidepoint(hover_pos[0], hover_pos[1]):
-                d = _point_to_segment_distance(float(hover_pos[0]), float(hover_pos[1]),
-                                                float(cx), float(cy), end_x, end_y)
-                if d < _VIS_HIT_WIDTH:
-                    line_width = _VIS_LINE_WIDTH + 3  # 加粗高亮
 
-            # 已探索标记（颜色变淡）
-            if explored_edges and (current_node, act) in explored_edges:
-                color = tuple(min(255, c + 60) for c in color)
+            if is_available:
+                # 可用动作：正常颜色，可点击
+                # 检查鼠标是否悬停在此线上
+                if hover_pos and self.rect.collidepoint(hover_pos[0], hover_pos[1]):
+                    d = _point_to_segment_distance(float(hover_pos[0]), float(hover_pos[1]),
+                                                    float(cx), float(cy), end_x, end_y)
+                    if d < _VIS_HIT_WIDTH:
+                        line_width = _VIS_LINE_WIDTH + 3  # 加粗高亮
+
+                # 已探索标记（颜色变淡）
+                if explored_edges and (current_node, act) in explored_edges:
+                    color = tuple(min(255, c + 60) for c in color)
+
+                # 只有可用动作才加入点击检测
+                self._edge_hitboxes.append((act, (float(cx), float(cy)), (end_x, end_y)))
+            else:
+                # 不可用动作：灰色半透明，不加入点击检测
+                color = (80, 80, 90)
+                line_width = max(2, _VIS_LINE_WIDTH - 2)
 
             pygame.draw.line(screen, color, (cx, cy), (int(end_x), int(end_y)), line_width)
-            self._edge_hitboxes.append((act, (float(cx), float(cy)), (end_x, end_y)))
 
-            # 在线末端画一个小圆点（表示可达的未知节点）
-            pygame.draw.circle(screen, color, (int(end_x), int(end_y)), 8)
+            # 在线末端画一个小圆点
+            pygame.draw.circle(screen, color, (int(end_x), int(end_y)), 8 if is_available else 5)
 
             # 在线旁标注动作名和按键
             key = ACTION_KEYS[act]
