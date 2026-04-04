@@ -155,6 +155,18 @@ _KEY_TO_ACTION = {
     pygame.K_w: "环线",
 }
 
+# IME 兼容用常量
+_TEXT_TO_ACTION = {"q": "公交(前)", "e": "公交(后)", "a": "地铁(前)", "d": "地铁(后)", "w": "环线"}
+_TEXT_TO_FAKE_KEY = {"q": pygame.K_q, "e": pygame.K_e, "a": pygame.K_a,
+                     "d": pygame.K_d, "w": pygame.K_w}
+
+
+class _FakeKeyEvent:
+    """IME 兼容用伪按键事件。"""
+    def __init__(self, key_code):
+        self.type = pygame.KEYDOWN
+        self.key = key_code
+
 # ── 动作对应的颜色（3 种交通工具 3 种颜色） ────────────────
 # 同一交通工具的前/后方向使用相同颜色
 _TRANSPORT_COLORS: Dict[str, Tuple[int, int, int]] = {
@@ -734,13 +746,7 @@ def main(
         for tev in text_events:
             ch = tev.text.lower()
             if ch in _TEXT_TO_ACTION and _TEXT_TO_ACTION[ch] not in mapped_key_actions:
-                # 构造一个伪 KEYDOWN 事件对象
-                class _FakeKeyEvent:
-                    def __init__(self, key_code):
-                        self.type = pygame.KEYDOWN
-                        self.key = key_code
-                fake_key = {"q": pygame.K_q, "e": pygame.K_e, "a": pygame.K_a,
-                            "d": pygame.K_d, "w": pygame.K_w}.get(ch)
+                fake_key = _TEXT_TO_FAKE_KEY.get(ch)
                 if fake_key is not None:
                     key_events.append(_FakeKeyEvent(fake_key))
 

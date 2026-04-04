@@ -57,6 +57,19 @@ _KEY_TO_TRANSIT_MODE = {
     pygame.K_w: ("metro", "next"),
 }
 
+# IME 兼容用常量
+_TEXT_TO_KEY: Dict[str, int] = {
+    "q": pygame.K_q, "e": pygame.K_e, "a": pygame.K_a,
+    "d": pygame.K_d, "w": pygame.K_w,
+}
+
+
+class _FakeKeyEvent:
+    """IME 兼容用伪按键事件。"""
+    def __init__(self, key_code: int):
+        self.type = pygame.KEYDOWN
+        self.key = key_code
+
 _MAX_ACTIONS_PER_TRIAL = 10
 
 # ── 交通工具显示名称与颜色（与 main.py 保持一致） ───────────
@@ -620,16 +633,10 @@ def main(
         click_events = [ev for ev in events if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1]
 
         # IME 兼容：将 TEXTINPUT 转换为虚拟按键
-        _TEXT_TO_KEY = {"q": pygame.K_q, "e": pygame.K_e, "a": pygame.K_a,
-                        "d": pygame.K_d, "w": pygame.K_w}
         mapped_keys = {ev.key for ev in key_events}
         for tev in text_events:
             ch = tev.text.lower()
             if ch in _TEXT_TO_KEY and _TEXT_TO_KEY[ch] not in mapped_keys:
-                class _FakeKeyEvent:
-                    def __init__(self, key_code):
-                        self.type = pygame.KEYDOWN
-                        self.key = key_code
                 key_events.append(_FakeKeyEvent(_TEXT_TO_KEY[ch]))
 
         # 处理鼠标点击（选择交通工具线）
