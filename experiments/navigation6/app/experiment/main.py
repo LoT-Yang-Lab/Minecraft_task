@@ -326,9 +326,9 @@ class _VisGraphWidget:
             elapsed = time.perf_counter() - self._anim_start_time
             t = min(1.0, elapsed / _VIS_ANIM_DURATION)
             # 缓动函数 (ease-out quad)
-            t = 1.0 - (1.0 - t) ** 2
-            anim_x = self._anim_from_xy[0] + (self._anim_to_xy[0] - self._anim_from_xy[0]) * t
-            anim_y = self._anim_from_xy[1] + (self._anim_to_xy[1] - self._anim_from_xy[1]) * t
+            eased = 1.0 - (1.0 - t) ** 2
+            anim_x = self._anim_from_xy[0] + (self._anim_to_xy[0] - self._anim_from_xy[0]) * eased
+            anim_y = self._anim_from_xy[1] + (self._anim_to_xy[1] - self._anim_from_xy[1]) * eased
             # 绘制动画中的动作线（颜色对应）
             color = ACTION_COLORS.get(self._anim_action, (200, 200, 200))
             pygame.draw.line(screen, color,
@@ -367,7 +367,6 @@ class _VisGraphWidget:
 
             # 已探索标记（颜色变淡）
             if explored_edges and (current_node, act) in explored_edges:
-                # 降低饱和度
                 color = tuple(min(255, c + 60) for c in color)
 
             pygame.draw.line(screen, color, (cx, cy), (int(end_x), int(end_y)), line_width)
