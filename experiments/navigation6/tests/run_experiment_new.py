@@ -8,7 +8,10 @@ the newer pygame transportation navigation UI implemented in
 sequence session by session.
 
 Behavior:
-1. Build the 5-session schedule from ``trial_schedule.py``.
+1. Load the pre-generated 5-session schedule from the fixed xlsx file
+   under ``fixed_schedules/`` (produced by ``generate_fixed_schedule.py``).
+   Falls back to the legacy on-the-fly generation only if the xlsx is
+   missing.
 2. Execute only navigation trials.
 3. Keep crafting trials as placeholders in metadata, but skip them.
 4. Use the same Navigation6 transportation task logic and data log style
@@ -19,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import json
 import sys
 from pathlib import Path
 from typing import Dict, List, Sequence, Tuple
@@ -32,6 +36,10 @@ if _PROJECT_ROOT_STR not in sys.path:
 from experiments.navigation6.main2 import main as nav_main2
 from experiments.navigation6.app.paths import trajectory_raw_dir
 from experiments.navigation6.tests.trial_schedule import build_session_schedule, save_schedule
+from experiments.navigation6.tests.generate_fixed_schedule import (
+    load_schedule_as_sessions,
+    _FIXED_SCHEDULES_DIR,
+)
 
 
 def _parse_args() -> argparse.Namespace:
@@ -66,6 +74,21 @@ def _parse_args() -> argparse.Namespace:
         type=int,
         default=None,
         help="Optional upper bound on how many sessions to iterate through from start-session",
+    )
+    parser.add_argument(
+        "--schedule-xlsx",
+        type=Path,
+        default=None,
+        help=(
+            "Path to a pre-generated schedule xlsx. If omitted, the default "
+            "xlsx under fixed_schedules/ is used (matching --order). "
+            "Pass --legacy to fall back to the old on-the-fly generation."
+        ),
+    )
+    parser.add_argument(
+        "--legacy",
+        action="store_true",
+        help="Use the legacy on-the-fly schedule generation instead of reading from xlsx",
     )
     return parser.parse_args()
 
@@ -133,7 +156,27 @@ def _make_experiment_output_dir(order: str) -> str:
 
 def main() -> int:
     args = _parse_args()
-    schedule = build_session_schedule(args.order)
+
+    # ── Load schedule ────────────────────────────────────────────────
+    if args.legacy:
+        # Legacy path: generate on-the-fly from seeds
+        print("[INFO] 使用旧版 on-the-fly 随机生成 schedule（--legacy 模式）。")
+        schedule = build_session_schedule(args.order)
+    else:
+        # New default: load from pre-generated xlsx
+        xlsx_path = args.schedule_xlsx
+        if xlsx_path is None:
+            xlsx_path = _FIXED_SCHEDULES_DIR / f"{args.order.replace('-', '_')}_schedule.xlsx"
+        if not xlsx_path.exists():
+            print(
+                f"[WARN] 未找到预生成的 xlsx 文件：{xlsx_path}\n"
+                f"       请先运行 generate_fixed_schedule.py 生成。回退到旧版 on-the-fly 生成。"
+            )
+            schedule = build_session_schedule(args.order)
+        else:
+            print(f"[INFO] 从固定 xlsx 文件加载 schedule：{xlsx_path}")
+            schedule = load_schedule_as_sessions(xlsx_path)
+
     if args.schedule_output:
         save_schedule(schedule, args.schedule_output)
         print(f"[INFO] Schedule saved to {args.schedule_output}")
