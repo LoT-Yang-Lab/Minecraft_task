@@ -97,6 +97,7 @@ _PAIR_ROWS: Dict[Category, List[Tuple[str, int, int, int, int, int]]] = {
 }
 
 _PAIR_CATALOG: Optional[Dict[Category, List[PairSpec]]] = None
+_FULL_PAIR_CATALOG: Optional[Dict[Category, List[PairSpec]]] = None
 
 
 def _row_to_spec(category: Category, row: Tuple[str, int, int, int, int, int]) -> PairSpec:
@@ -123,6 +124,7 @@ def _row_to_spec(category: Category, row: Tuple[str, int, int, int, int, int]) -
 
 
 def get_pair_catalog() -> Dict[Category, List[PairSpec]]:
+    """Return the original 44-pair catalog from Tables 3-5."""
     global _PAIR_CATALOG
     if _PAIR_CATALOG is None:
         _PAIR_CATALOG = {
@@ -130,6 +132,196 @@ def get_pair_catalog() -> Dict[Category, List[PairSpec]]:
             for category, rows in _PAIR_ROWS.items()
         }
     return _PAIR_CATALOG
+
+
+# ── Full pair enumeration (all 72 directed pairs on graph9) ──────────────
+
+def _enumerate_all_graph_pairs() -> Dict[Category, List[PairSpec]]:
+    """Enumerate ALL 72 directed (start, goal) pairs on the 9-node graph,
+    classify each as grid/loop/tie, and return as PairSpec objects.
+
+    Classification rules:
+    - **grid**: d_full == d_grid and no shortest path uses the ring edge
+    - **loop**: d_full < d_grid (ring provides a genuine shortcut)
+    - **tie**: d_full == d_grid but at least one shortest path uses the ring
+
+    This uses BFS on graph9 with and without the ring edges.
+    """
+    from collections import deque
+
+    # Graph structure from graph9.py
+    node_ids = list(range(1, 10))
+    node_pos = {
+        1: (0, 0), 2: (0, 1), 3: (0, 2),
+        4: (1, 0), 5: (1, 1), 6: (1, 2),
+        7: (2, 0), 8: (2, 1), 9: (2, 2),
+    }
+    ring_next = {1: 3, 3: 9, 9: 7, 7: 1}
+
+    def grid_neighbors(n: int) -> List[int]:
+        r, c = node_pos[n]
+        nbrs: List[int] = []
+        for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr <= 2 and 0 <= nc <= 2:
+                nbrs.append(nr * 3 + nc + 1)
+        return nbrs
+
+    def full_neighbors(n: int) -> List[int]:
+        nbrs = list(grid_neighbors(n))
+        if n in ring_next:
+            nbrs.append(ring_next[n])
+        return nbrs
+
+    def bfs_dist(start: int, goal: int, neighbor_fn) -> int:
+        if start == goal:
+            return 0
+        visited = {start}
+        q: deque = deque([(start, 0)])
+        while q:
+            cur, d = q.popleft()
+            for nb in neighbor_fn(cur):
+                if nb == goal:
+                    return d + 1
+                if nb not in visited:
+                    visited.add(nb)
+                    q.append((nb, d + 1))
+        return 999
+
+    def count_shortest_paths(start: int, goal: int, neighbor_fn) -> Tuple[int, int]:
+        """Return (distance, path_count) using BFS."""
+        if start == goal:
+            return 0, 0
+        dist_to = {start: 0}
+        count_to = {start: 1}
+        q: deque = deque([start])
+        while q:
+            cur = q.popleft()
+            for nb in neighbor_fn(cur):
+                nd = dist_to[cur] + 1
+                if nb not in dist_to:
+                    dist_to[nb] = nd
+                    count_to[nb] = count_to[cur]
+                    q.append(nb)
+                elif dist_to[nb] == nd:
+                    count_to[nb] += count_to[cur]
+        return dist_to.get(goal, 999), count_to.get(goal, 0)
+
+    def has_ring_shortest_path(start: int, goal: int, d_full: int) -> bool:
+        """Check if any shortest path from start to goal uses a ring edge."""
+        q: deque = deque([(start, False, 0)])
+        visited: Dict[Tuple[int, bool], int] = {(start, False): 0}
+        while q:
+            cur, used_ring, d = q.popleft()
+            if d > d_full:
+                break
+            if cur == goal and d == d_full and used_ring:
+                return True
+            # Grid moves
+            for nb in grid_neighbors(cur):
+                state = (nb, used_ring)
+                if state not in visited or visited[state] > d + 1:
+                    if d + 1 <= d_full:
+                        visited[state] = d + 1
+                        q.append((nb, used_ring, d + 1))
+            # Ring move
+            if cur in ring_next:
+                nb = ring_next[cur]
+                state = (nb, True)
+                if state not in visited or visited[state] > d + 1:
+                    if d + 1 <= d_full:
+                        visited[state] = d + 1
+                        q.append((nb, True, d + 1))
+        return False
+
+    # Build the existing catalog lookup for (start, goal)
+    existing: Dict[Tuple[int, int], Tuple[str, Category]] = {}
+    for cat, rows in _PAIR_ROWS.items():
+        for row in rows:
+            existing[(row[1], row[2])] = (row[0], cat)
+
+    # Counters for new IDs per category
+    new_id_counter = {"grid": 24, "loop": 12, "tie": 8}  # continue after existing
+    result: Dict[Category, List[PairSpec]] = {"grid": [], "loop": [], "tie": []}
+
+    for s in node_ids:
+        for g in node_ids:
+            if s == g:
+                continue
+
+            d_grid = bfs_dist(s, g, grid_neighbors)
+            d_full = bfs_dist(s, g, full_neighbors)
+
+            if d_full < d_grid:
+                cat: Category = "loop"
+            else:
+                # d_full == d_grid; check if any shortest path uses ring
+                if has_ring_shortest_path(s, g, d_full):
+                    cat = "tie"
+                else:
+                    cat = "grid"
+
+            # Compute path counts
+            _, grid_path_count = count_shortest_paths(s, g, grid_neighbors)
+            _, full_path_count = count_shortest_paths(s, g, full_neighbors)
+
+            if cat == "grid":
+                multiplicity = grid_path_count
+                gp, lp = multiplicity, 0
+            elif cat == "loop":
+                # loop_paths = full paths - grid paths at same distance
+                # but for loop d_full < d_grid, so all shortest paths use ring
+                multiplicity = full_path_count
+                gp, lp = 0, multiplicity
+            else:  # tie
+                multiplicity = full_path_count
+                gp, lp = grid_path_count, full_path_count - grid_path_count
+
+            if (s, g) in existing:
+                pair_id = existing[(s, g)][0]
+            else:
+                new_id_counter[cat] += 1
+                prefix = {"grid": "G", "loop": "L", "tie": "T"}[cat]
+                pair_id = f"{prefix}{new_id_counter[cat]:02d}"
+
+            spec = PairSpec(
+                pair_id=pair_id,
+                category=cat,
+                start=s,
+                goal=g,
+                d_grid=d_grid,
+                d_loop=d_full,
+                multiplicity=multiplicity,
+                grid_paths=gp,
+                loop_paths=lp,
+            )
+            result[cat].append(spec)
+
+    # Sort: existing catalog pairs first (by original order), then new pairs
+    for cat in result:
+        existing_ids = {row[0] for row in _PAIR_ROWS[cat]}
+        existing_list = [p for p in result[cat] if p.pair_id in existing_ids]
+        new_list = [p for p in result[cat] if p.pair_id not in existing_ids]
+        # Preserve original catalog order for existing pairs
+        id_order = {row[0]: i for i, row in enumerate(_PAIR_ROWS[cat])}
+        existing_list.sort(key=lambda p: id_order.get(p.pair_id, 999))
+        new_list.sort(key=lambda p: (p.start, p.goal))
+        result[cat] = existing_list + new_list
+
+    return result
+
+
+def get_full_pair_catalog() -> Dict[Category, List[PairSpec]]:
+    """Return ALL possible pairs on graph9 (72 total), grouped by category.
+
+    Includes the original 44 catalog pairs (first in each list) plus all
+    remaining directed pairs that can be formed on the 9-node graph.
+    Counts: 48 grid + 16 loop + 8 tie = 72 total.
+    """
+    global _FULL_PAIR_CATALOG
+    if _FULL_PAIR_CATALOG is None:
+        _FULL_PAIR_CATALOG = _enumerate_all_graph_pairs()
+    return _FULL_PAIR_CATALOG
 
 
 def _weighted_choice(
