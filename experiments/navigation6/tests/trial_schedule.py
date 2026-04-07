@@ -240,8 +240,8 @@ def _enumerate_all_graph_pairs() -> Dict[Category, List[PairSpec]]:
         for row in rows:
             existing[(row[1], row[2])] = (row[0], cat)
 
-    # Counters for new IDs per category
-    new_id_counter = {"grid": 24, "loop": 12, "tie": 8}  # continue after existing
+    # Continue numbering after existing catalog pairs (G01-G24, L01-L12, T01-T08)
+    new_id_counter = {cat: len(rows) for cat, rows in _PAIR_ROWS.items()}
     result: Dict[Category, List[PairSpec]] = {"grid": [], "loop": [], "tie": []}
 
     for s in node_ids:
