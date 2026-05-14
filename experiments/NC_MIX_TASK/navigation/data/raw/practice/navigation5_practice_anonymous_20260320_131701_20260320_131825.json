@@ -1,0 +1,78 @@
+{
+  "timestamp": "2026-03-20T13:18:25.796520",
+  "total_records": 3,
+  "participant_id": "anonymous_20260320_131701",
+  "map_id": "map_1773512170",
+  "session_start_iso": "2026-03-20T13:17:01.596832",
+  "learning_pool_size": 34,
+  "test_pool_size": 17,
+  "phase_transition_criterion": "learning_min_questions=34, test_min_questions=17, test_accuracy_threshold>=0.8, reset_on_failed_test=True",
+  "records": [
+    {
+      "phase": "learning",
+      "trial_index": 1,
+      "map_id": "map_1773512170",
+      "question_id": "map_1773512170|2|move|north|1",
+      "current_code": 2,
+      "action_label": "向北走",
+      "correct_next_code": 1,
+      "participant_choice": 1,
+      "correct": true,
+      "rt_ms": 8290.151357650757,
+      "attempt_count": 1,
+      "timestamp": 1773983830.770515,
+      "options": [
+        1,
+        7,
+        5,
+        6,
+        2
+      ],
+      "first_response_ms": 8290.150165557861
+    },
+    {
+      "phase": "learning",
+      "trial_index": 2,
+      "map_id": "map_1773512170",
+      "question_id": "map_1773512170|2|move|east|5",
+      "current_code": 2,
+      "action_label": "向东走",
+      "correct_next_code": 5,
+      "participant_choice": 5,
+      "correct": true,
+      "rt_ms": 4102.427959442139,
+      "attempt_count": 1,
+      "timestamp": 1773983836.0521545,
+      "options": [
+        8,
+        2,
+        7,
+        1,
+        5
+      ],
+      "first_response_ms": 4102.427244186401
+    },
+    {
+      "phase": "learning",
+      "trial_index": 3,
+      "map_id": "map_1773512170",
+      "question_id": "map_1773512170|4|move|south|5",
+      "current_code": 4,
+      "action_label": "向南走",
+      "correct_next_code": 5,
+      "participant_choice": 5,
+      "correct": true,
+      "rt_ms": 8628.057479858398,
+      "attempt_count": 1,
+      "timestamp": 1773983845.8545191,
+      "options": [
+        2,
+        9,
+        4,
+        5,
+        7
+      ],
+      "first_response_ms": 8628.05724143982
+    }
+  ]
+}

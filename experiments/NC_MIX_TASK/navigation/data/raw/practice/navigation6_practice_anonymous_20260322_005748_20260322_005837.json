@@ -1,0 +1,182 @@
+{
+  "timestamp": "2026-03-22T00:58:37.258227",
+  "total_records": 2,
+  "participant_id": "anonymous_20260322_005748",
+  "map_id": "map_1774095558",
+  "session_start_iso": "2026-03-22T00:57:48.214616",
+  "learning_pool_size": 32,
+  "test_pool_size": 16,
+  "phase_transition_criterion": "learning_min_questions=32, test_min_questions=16, test_accuracy_threshold>=0.8, reset_on_failed_test=True",
+  "practice_variant": "v2_keyed_learning",
+  "learning_interaction": "key_3s_delay_qwe_transit_reveal",
+  "test_interaction": "drag_same_as_v1",
+  "pair_condition": "same_heavy",
+  "participant_condition_code": "DD",
+  "pair_condition_source": "ui",
+  "mode_mapping_rdc": {
+    "bus": "R",
+    "light_rail": "D",
+    "metro": "C"
+  },
+  "sequence_length_learning": 32,
+  "sequence_length_test": 16,
+  "pair_sequence_enabled": true,
+  "edge_histogram_learning": {
+    "edge_triple_counts": {
+      "SAME": 12,
+      "DIFF_NO_C": 2,
+      "DIFF_WITH_C": 2
+    },
+    "edge_pair_counts": {
+      "RR": 3,
+      "RD": 0,
+      "RC": 0,
+      "DR": 2,
+      "DD": 3,
+      "DC": 2,
+      "CR": 0,
+      "CD": 0,
+      "CC": 6
+    },
+    "num_internal_edges": 16,
+    "histogram_scope": "disjoint_pairs_only"
+  },
+  "edge_histogram_test": {
+    "edge_triple_counts": {
+      "SAME": 6,
+      "DIFF_NO_C": 2,
+      "DIFF_WITH_C": 0
+    },
+    "edge_pair_counts": {
+      "RR": 2,
+      "RD": 0,
+      "RC": 0,
+      "DR": 2,
+      "DD": 2,
+      "DC": 0,
+      "CR": 0,
+      "CD": 0,
+      "CC": 2
+    },
+    "num_internal_edges": 8,
+    "histogram_scope": "disjoint_pairs_only"
+  },
+  "bucket_sizes": {
+    "R": 6,
+    "D": 6,
+    "C": 4
+  },
+  "bucket_warnings": [],
+  "learning_assign_warnings": [],
+  "test_assign_warnings": [
+    "test_uncovered_edges_2"
+  ],
+  "learning_mode_sequence": [
+    "D",
+    "D",
+    "D",
+    "R",
+    "C",
+    "C",
+    "D",
+    "R",
+    "R",
+    "R",
+    "D",
+    "D",
+    "C",
+    "C",
+    "R",
+    "R",
+    "C",
+    "C",
+    "C",
+    "C",
+    "C",
+    "C",
+    "D",
+    "C",
+    "C",
+    "C",
+    "D",
+    "C",
+    "R",
+    "R",
+    "D",
+    "D"
+  ],
+  "test_mode_sequence": [
+    "D",
+    "D",
+    "D",
+    "R",
+    "C",
+    "C",
+    "D",
+    "R",
+    "R",
+    "R",
+    "D",
+    "D",
+    "C",
+    "C",
+    "R",
+    "R"
+  ],
+  "test_mode_sequence_source": "learning_prefix",
+  "test_instant_transit_coverage": {
+    "eligible_instant_transit_items": 16,
+    "test_question_count": 16,
+    "uncovered_count": 2,
+    "uncovered_qid_prefixes": [
+      "map_1774095558|6|instant_transit_next|2|3",
+      "map_1774095558|9|instant_transit_next|2|6"
+    ]
+  },
+  "records": [
+    {
+      "phase": "learning",
+      "trial_index": 1,
+      "map_id": "map_1774095558",
+      "question_id": "map_1774095558|1|instant_transit_next|4|2",
+      "current_code": 1,
+      "action_label": "轻轨（W）",
+      "correct_next_code": 2,
+      "participant_choice": 2,
+      "correct": true,
+      "rt_ms": 10520.291566848755,
+      "attempt_count": 1,
+      "timestamp": 1774112281.8661678,
+      "options": [
+        6,
+        8,
+        9,
+        2,
+        5
+      ],
+      "first_response_ms": 10520.291090011597
+    },
+    {
+      "phase": "learning",
+      "trial_index": 2,
+      "map_id": "map_1774095558",
+      "question_id": "map_1774095558|2|instant_transit_next|4|3",
+      "current_code": 2,
+      "action_label": "轻轨（W）",
+      "correct_next_code": 3,
+      "participant_choice": 3,
+      "correct": true,
+      "rt_ms": 5062.585830688477,
+      "attempt_count": 1,
+      "timestamp": 1774112288.1003807,
+      "options": [
+        9,
+        1,
+        2,
+        3,
+        7
+      ],
+      "first_response_ms": 5062.5855922698975
+    }
+  ]
+}

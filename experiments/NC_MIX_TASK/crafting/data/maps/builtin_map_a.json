@@ -1,0 +1,47 @@
+{
+  "schema": "crafting_transition_map",
+  "version": "1.0",
+  "map_id": "custom",
+  "linked_navigation_map_id": "map_1774095558",
+  "description": "",
+  "potion1": {
+    "stone_01": "stone_02",
+    "stone_02": "stone_03",
+    "stone_04": "stone_05",
+    "stone_05": "stone_06",
+    "stone_07": "stone_08",
+    "stone_08": "stone_09"
+  },
+  "potion2": {
+    "stone_01": "stone_04",
+    "stone_02": "stone_05",
+    "stone_03": "stone_06",
+    "stone_04": "stone_07",
+    "stone_05": "stone_08",
+    "stone_06": "stone_09"
+  },
+  "potion3": {
+    "stone_01": "stone_03",
+    "stone_03": "stone_09",
+    "stone_07": "stone_01",
+    "stone_09": "stone_07"
+  },
+  "potion3_control_offset": {
+    "stone_01": [
+      -1.0,
+      -134.0
+    ],
+    "stone_03": [
+      119.0,
+      7.0
+    ],
+    "stone_07": [
+      -128.0,
+      8.0
+    ],
+    "stone_09": [
+      2.0,
+      121.0
+    ]
+  }
+}

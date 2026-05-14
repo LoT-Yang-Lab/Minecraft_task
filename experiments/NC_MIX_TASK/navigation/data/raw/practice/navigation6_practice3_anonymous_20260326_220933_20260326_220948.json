@@ -1,0 +1,122 @@
+{
+  "schema": "navigation6_practice3",
+  "participant_id": "anonymous_20260326_220933",
+  "session_start_iso": "2026-03-26T22:09:35.011641",
+  "session_end_iso": "2026-03-26T22:09:48.482280",
+  "duration_sec": 13.471,
+  "map_file": "map_1774095558.json",
+  "map_id": "map_1774095558",
+  "rounds_total": 2,
+  "min_visits": 2,
+  "round_summaries": [],
+  "steps": [
+    {
+      "round_index": 1,
+      "step_index": 1,
+      "t_sec": 4.656,
+      "from_code": 1,
+      "to_code": 4,
+      "action_label": "公交（Q） 上一站",
+      "action_key": "instant_transit_prev",
+      "action_extra": 0,
+      "explore_rate": 0.2222222222222222,
+      "mastery_rate": 0.0
+    },
+    {
+      "round_index": 1,
+      "step_index": 2,
+      "t_sec": 5.729,
+      "from_code": 4,
+      "to_code": 5,
+      "action_label": "轻轨（W） 上一站",
+      "action_key": "instant_transit_prev",
+      "action_extra": 5,
+      "explore_rate": 0.3333333333333333,
+      "mastery_rate": 0.0
+    },
+    {
+      "round_index": 1,
+      "step_index": 3,
+      "t_sec": 6.366,
+      "from_code": 5,
+      "to_code": 4,
+      "action_label": "轻轨（W） 下一站",
+      "action_key": "instant_transit_next",
+      "action_extra": 5,
+      "explore_rate": 0.3333333333333333,
+      "mastery_rate": 0.1111111111111111
+    },
+    {
+      "round_index": 1,
+      "step_index": 4,
+      "t_sec": 7.041,
+      "from_code": 4,
+      "to_code": 5,
+      "action_label": "轻轨（W） 上一站",
+      "action_key": "instant_transit_prev",
+      "action_extra": 5,
+      "explore_rate": 0.3333333333333333,
+      "mastery_rate": 0.2222222222222222
+    },
+    {
+      "round_index": 1,
+      "step_index": 5,
+      "t_sec": 7.576,
+      "from_code": 5,
+      "to_code": 4,
+      "action_label": "轻轨（W） 下一站",
+      "action_key": "instant_transit_next",
+      "action_extra": 5,
+      "explore_rate": 0.3333333333333333,
+      "mastery_rate": 0.2222222222222222
+    },
+    {
+      "round_index": 1,
+      "step_index": 6,
+      "t_sec": 9.193,
+      "from_code": 4,
+      "to_code": 1,
+      "action_label": "公交（Q） 下一站",
+      "action_key": "instant_transit_next",
+      "action_extra": 0,
+      "explore_rate": 0.3333333333333333,
+      "mastery_rate": 0.3333333333333333
+    },
+    {
+      "round_index": 1,
+      "step_index": 7,
+      "t_sec": 9.627,
+      "from_code": 1,
+      "to_code": 4,
+      "action_label": "公交（Q） 上一站",
+      "action_key": "instant_transit_prev",
+      "action_extra": 0,
+      "explore_rate": 0.3333333333333333,
+      "mastery_rate": 0.3333333333333333
+    },
+    {
+      "round_index": 1,
+      "step_index": 8,
+      "t_sec": 10.064,
+      "from_code": 4,
+      "to_code": 1,
+      "action_label": "公交（Q） 下一站",
+      "action_key": "instant_transit_next",
+      "action_extra": 0,
+      "explore_rate": 0.3333333333333333,
+      "mastery_rate": 0.3333333333333333
+    },
+    {
+      "round_index": 1,
+      "step_index": 9,
+      "t_sec": 10.362,
+      "from_code": 1,
+      "to_code": 4,
+      "action_label": "公交（Q） 上一站",
+      "action_key": "instant_transit_prev",
+      "action_extra": 0,
+      "explore_rate": 0.3333333333333333,
+      "mastery_rate": 0.3333333333333333
+    }
+  ]
+}

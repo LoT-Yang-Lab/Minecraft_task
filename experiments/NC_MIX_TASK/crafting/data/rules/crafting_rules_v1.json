@@ -1,0 +1,7 @@
+{
+  "schema": "crafting",
+  "version": "1.0",
+  "description": "map_a：九石阵——同行回路一 + 同列回路二。药水1/2 仅顺向；药水3 为 stone_01→…→09→01 大环。map_b：回路二仅第一列存在。",
+  "map_id": "map_a",
+  "transition_map_path": "data/maps/builtin_map_a.json"
+}

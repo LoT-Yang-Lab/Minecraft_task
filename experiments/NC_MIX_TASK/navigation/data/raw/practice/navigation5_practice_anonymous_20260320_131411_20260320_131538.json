@@ -1,0 +1,100 @@
+{
+  "timestamp": "2026-03-20T13:15:38.566466",
+  "total_records": 4,
+  "participant_id": "anonymous_20260320_131411",
+  "map_id": "map_1773512012",
+  "session_start_iso": "2026-03-20T13:14:11.605158",
+  "learning_pool_size": 36,
+  "test_pool_size": 18,
+  "phase_transition_criterion": "learning_min_questions=36, test_min_questions=18, test_accuracy_threshold>=0.8, reset_on_failed_test=True",
+  "records": [
+    {
+      "phase": "learning",
+      "trial_index": 1,
+      "map_id": "map_1773512012",
+      "question_id": "map_1773512012|5|move|west|2",
+      "current_code": 5,
+      "action_label": "向西走",
+      "correct_next_code": 2,
+      "participant_choice": 2,
+      "correct": true,
+      "rt_ms": 5686.094760894775,
+      "attempt_count": 1,
+      "timestamp": 1773983658.644402,
+      "options": [
+        6,
+        2,
+        3,
+        9,
+        7
+      ],
+      "first_response_ms": 5686.09356880188
+    },
+    {
+      "phase": "learning",
+      "trial_index": 1,
+      "map_id": "map_1773512012",
+      "question_id": "map_1773512012|5|move|west|2",
+      "current_code": 5,
+      "action_label": "向西走",
+      "correct_next_code": 2,
+      "participant_choice": 2,
+      "correct": true,
+      "rt_ms": 6795.775413513184,
+      "attempt_count": 2,
+      "timestamp": 1773983659.7540848,
+      "options": [
+        6,
+        2,
+        3,
+        9,
+        7
+      ],
+      "first_response_ms": 5686.09356880188
+    },
+    {
+      "phase": "learning",
+      "trial_index": 1,
+      "map_id": "map_1773512012",
+      "question_id": "map_1773512012|5|move|west|2",
+      "current_code": 5,
+      "action_label": "向西走",
+      "correct_next_code": 2,
+      "participant_choice": 2,
+      "correct": true,
+      "rt_ms": 7803.232431411743,
+      "attempt_count": 3,
+      "timestamp": 1773983660.761539,
+      "options": [
+        6,
+        2,
+        3,
+        9,
+        7
+      ],
+      "first_response_ms": 5686.09356880188
+    },
+    {
+      "phase": "learning",
+      "trial_index": 2,
+      "map_id": "map_1773512012",
+      "question_id": "map_1773512012|4|move|west|1",
+      "current_code": 4,
+      "action_label": "向西走",
+      "correct_next_code": 1,
+      "participant_choice": 1,
+      "correct": true,
+      "rt_ms": 1679.0821552276611,
+      "attempt_count": 1,
+      "timestamp": 1773983663.6166165,
+      "options": [
+        8,
+        2,
+        3,
+        1,
+        6
+      ],
+      "first_response_ms": 1679.0807247161865
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-03-21T20:44:07.402738",
+  "total_records": 0,
+  "participant_id": "anonymous_20260321_204357",
+  "map_id": "map_nav6_sample",
+  "session_start_iso": "2026-03-21T20:43:57.358725",
+  "learning_pool_size": 16,
+  "test_pool_size": 8,
+  "phase_transition_criterion": "learning_min_questions=16, test_min_questions=8, test_accuracy_threshold>=0.8, reset_on_failed_test=True",
+  "records": []
+}

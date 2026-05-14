@@ -1,0 +1,135 @@
+{
+  "timestamp": "2026-03-22T00:12:39.272132",
+  "total_records": 0,
+  "participant_id": "anonymous_20260322_001231",
+  "map_id": "map_1774095558",
+  "session_start_iso": "2026-03-22T00:12:31.586107",
+  "learning_pool_size": 32,
+  "test_pool_size": 16,
+  "phase_transition_criterion": "learning_min_questions=32, test_min_questions=16, test_accuracy_threshold>=0.8, reset_on_failed_test=True",
+  "pair_condition": "same_heavy",
+  "participant_condition_code": "DD",
+  "pair_condition_source": "ui",
+  "mode_mapping_rdc": {
+    "bus": "R",
+    "light_rail": "D",
+    "metro": "C"
+  },
+  "sequence_length_learning": 32,
+  "sequence_length_test": 16,
+  "pair_sequence_enabled": true,
+  "edge_histogram_learning": {
+    "edge_triple_counts": {
+      "SAME": 13,
+      "DIFF_NO_C": 2,
+      "DIFF_WITH_C": 1
+    },
+    "edge_pair_counts": {
+      "RR": 5,
+      "RD": 1,
+      "RC": 1,
+      "DR": 1,
+      "DD": 5,
+      "DC": 0,
+      "CR": 0,
+      "CD": 0,
+      "CC": 3
+    },
+    "num_internal_edges": 16,
+    "histogram_scope": "disjoint_pairs_only"
+  },
+  "edge_histogram_test": {
+    "edge_triple_counts": {
+      "SAME": 7,
+      "DIFF_NO_C": 1,
+      "DIFF_WITH_C": 0
+    },
+    "edge_pair_counts": {
+      "RR": 4,
+      "RD": 0,
+      "RC": 0,
+      "DR": 1,
+      "DD": 2,
+      "DC": 0,
+      "CR": 0,
+      "CD": 0,
+      "CC": 1
+    },
+    "num_internal_edges": 8,
+    "histogram_scope": "disjoint_pairs_only"
+  },
+  "bucket_sizes": {
+    "R": 6,
+    "D": 6,
+    "C": 4
+  },
+  "bucket_warnings": [],
+  "learning_assign_warnings": [],
+  "test_assign_warnings": [
+    "test_uncovered_edges_3"
+  ],
+  "learning_mode_sequence": [
+    "D",
+    "D",
+    "R",
+    "R",
+    "R",
+    "R",
+    "R",
+    "R",
+    "D",
+    "D",
+    "C",
+    "C",
+    "D",
+    "R",
+    "R",
+    "R",
+    "C",
+    "C",
+    "R",
+    "D",
+    "R",
+    "R",
+    "D",
+    "D",
+    "R",
+    "C",
+    "C",
+    "C",
+    "D",
+    "D",
+    "D",
+    "D"
+  ],
+  "test_mode_sequence": [
+    "D",
+    "D",
+    "R",
+    "R",
+    "R",
+    "R",
+    "R",
+    "R",
+    "D",
+    "D",
+    "C",
+    "C",
+    "D",
+    "R",
+    "R",
+    "R"
+  ],
+  "test_mode_sequence_source": "learning_prefix",
+  "test_instant_transit_coverage": {
+    "eligible_instant_transit_items": 16,
+    "test_question_count": 16,
+    "uncovered_count": 3,
+    "uncovered_qid_prefixes": [
+      "map_1774095558|9|instant_transit_next|3|3",
+      "map_1774095558|7|instant_transit_next|6|8",
+      "map_1774095558|3|instant_transit_next|3|1"
+    ]
+  },
+  "records": []
+}

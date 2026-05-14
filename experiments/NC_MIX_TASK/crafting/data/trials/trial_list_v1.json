@@ -1,0 +1,25 @@
+{
+  "schema": "crafting_trial_list",
+  "version": "1.0",
+  "description": "每 trial 单一起始石块（raws 仅第一项生效）；start_state_id 亦可。",
+  "trials": [
+    {
+      "trial_id": "trial_001",
+      "order_count": 20,
+      "seed": 2001,
+      "raws": ["stone_01"]
+    },
+    {
+      "trial_id": "trial_002",
+      "order_count": 20,
+      "seed": 2002,
+      "raws": ["stone_04"]
+    },
+    {
+      "trial_id": "trial_003",
+      "order_count": 20,
+      "seed": 2003,
+      "start_state_id": "stone_08"
+    }
+  ]
+}

@@ -1,0 +1,251 @@
+{
+  "timestamp": "2026-03-21T23:16:50.561647",
+  "total_records": 6,
+  "participant_id": "anonymous_20260321_231630",
+  "map_id": "map_1774095558",
+  "session_start_iso": "2026-03-21T23:16:30.546126",
+  "learning_pool_size": 32,
+  "test_pool_size": 16,
+  "phase_transition_criterion": "learning_min_questions=32, test_min_questions=16, test_accuracy_threshold>=0.8, reset_on_failed_test=True",
+  "pair_condition": "uniform",
+  "mode_mapping_rdc": {
+    "bus": "R",
+    "light_rail": "D",
+    "metro": "C"
+  },
+  "sequence_length_learning": 32,
+  "sequence_length_test": 16,
+  "pair_sequence_enabled": true,
+  "edge_histogram_learning": {
+    "edge_triple_counts": {
+      "SAME": 7,
+      "DIFF_NO_C": 10,
+      "DIFF_WITH_C": 14
+    },
+    "edge_pair_counts": {
+      "RR": 2,
+      "RD": 5,
+      "RC": 4,
+      "DR": 5,
+      "DD": 3,
+      "DC": 3,
+      "CR": 4,
+      "CD": 3,
+      "CC": 2
+    },
+    "num_edges": 31
+  },
+  "edge_histogram_test": {
+    "edge_triple_counts": {
+      "SAME": 7,
+      "DIFF_NO_C": 3,
+      "DIFF_WITH_C": 5
+    },
+    "edge_pair_counts": {
+      "RR": 2,
+      "RD": 1,
+      "RC": 2,
+      "DR": 2,
+      "DD": 1,
+      "DC": 0,
+      "CR": 1,
+      "CD": 2,
+      "CC": 4
+    },
+    "num_edges": 15
+  },
+  "bucket_sizes": {
+    "R": 6,
+    "D": 6,
+    "C": 4
+  },
+  "bucket_warnings": [],
+  "learning_assign_warnings": [],
+  "test_assign_warnings": [],
+  "learning_mode_sequence": [
+    "R",
+    "R",
+    "D",
+    "R",
+    "C",
+    "C",
+    "D",
+    "D",
+    "R",
+    "C",
+    "D",
+    "R",
+    "D",
+    "C",
+    "R",
+    "R",
+    "D",
+    "R",
+    "D",
+    "C",
+    "C",
+    "R",
+    "C",
+    "R",
+    "D",
+    "D",
+    "D",
+    "C",
+    "R",
+    "C",
+    "D",
+    "R"
+  ],
+  "test_mode_sequence": [
+    "C",
+    "R",
+    "C",
+    "D",
+    "R",
+    "C",
+    "C",
+    "C",
+    "C",
+    "C",
+    "D",
+    "R",
+    "R",
+    "R",
+    "D",
+    "D"
+  ],
+  "records": [
+    {
+      "phase": "learning",
+      "trial_index": 1,
+      "map_id": "map_1774095558",
+      "question_id": "map_1774095558|4|instant_transit_next|0|1",
+      "current_code": 4,
+      "action_label": "公交（Q）",
+      "correct_next_code": 1,
+      "participant_choice": 1,
+      "correct": true,
+      "rt_ms": 2389.065980911255,
+      "attempt_count": 1,
+      "timestamp": 1774106194.3105884,
+      "options": [
+        4,
+        5,
+        1,
+        3,
+        7
+      ],
+      "first_response_ms": 2389.0652656555176
+    },
+    {
+      "phase": "learning",
+      "trial_index": 2,
+      "map_id": "map_1774095558",
+      "question_id": "map_1774095558|5|instant_transit_next|1|8",
+      "current_code": 5,
+      "action_label": "公交（Q）",
+      "correct_next_code": 8,
+      "participant_choice": 8,
+      "correct": true,
+      "rt_ms": 1347.0664024353027,
+      "attempt_count": 1,
+      "timestamp": 1774106196.8316734,
+      "options": [
+        6,
+        4,
+        1,
+        8,
+        3
+      ],
+      "first_response_ms": 1347.0652103424072
+    },
+    {
+      "phase": "learning",
+      "trial_index": 3,
+      "map_id": "map_1774095558",
+      "question_id": "map_1774095558|1|instant_transit_next|4|2",
+      "current_code": 1,
+      "action_label": "轻轨（W）",
+      "correct_next_code": 2,
+      "participant_choice": 2,
+      "correct": true,
+      "rt_ms": 1411.698818206787,
+      "attempt_count": 1,
+      "timestamp": 1774106199.418355,
+      "options": [
+        2,
+        8,
+        7,
+        3,
+        1
+      ],
+      "first_response_ms": 1411.698579788208
+    },
+    {
+      "phase": "learning",
+      "trial_index": 4,
+      "map_id": "map_1774095558",
+      "question_id": "map_1774095558|5|instant_transit_next|1|8",
+      "current_code": 5,
+      "action_label": "公交（Q）",
+      "correct_next_code": 8,
+      "participant_choice": 8,
+      "correct": true,
+      "rt_ms": 1413.2065773010254,
+      "attempt_count": 1,
+      "timestamp": 1774106202.0277586,
+      "options": [
+        4,
+        9,
+        8,
+        6,
+        1
+      ],
+      "first_response_ms": 1413.2063388824463
+    },
+    {
+      "phase": "learning",
+      "trial_index": 5,
+      "map_id": "map_1774095558",
+      "question_id": "map_1774095558|7|instant_transit_next|3|9",
+      "current_code": 7,
+      "action_label": "高铁（E）",
+      "correct_next_code": 9,
+      "participant_choice": 9,
+      "correct": true,
+      "rt_ms": 1410.7511043548584,
+      "attempt_count": 1,
+      "timestamp": 1774106204.6143649,
+      "options": [
+        2,
+        1,
+        9,
+        4,
+        5
+      ],
+      "first_response_ms": 1410.7508659362793
+    },
+    {
+      "phase": "learning",
+      "trial_index": 6,
+      "map_id": "map_1774095558",
+      "question_id": "map_1774095558|1|instant_transit_next|3|7",
+      "current_code": 1,
+      "action_label": "高铁（E）",
+      "correct_next_code": 7,
+      "participant_choice": 7,
+      "correct": true,
+      "rt_ms": 1481.2748432159424,
+      "attempt_count": 1,
+      "timestamp": 1774106207.2727098,
+      "options": [
+        6,
+        4,
+        7,
+        1,
+        2
+      ],
+      "first_response_ms": 1481.2746047973633
+    }
+  ]
+}

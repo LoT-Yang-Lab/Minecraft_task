@@ -1,0 +1,39 @@
+{
+  "log_path": "D:\\桌面文件夹\\华东师范\\Minecraft8.0\\experiments\\navigation6\\analysis\\output\\_synthetic_nav5.csv",
+  "map_id": "map_1773511099",
+  "rows_total": 4,
+  "rows_filtered": 4,
+  "states_total": 4,
+  "states_effective": 3,
+  "transitions_used": 2,
+  "transitions_skipped": 1,
+  "nodes_in_graph": 3,
+  "edges_in_graph": 0,
+  "bootstrap": {
+    "per_source": {
+      "c1|ph=test|st=0|po=0|d=mid": {
+        "n_out": 1,
+        "candidates": 1,
+        "accepted": 0
+      },
+      "c2|ph=test|st=0|po=0|d=near": {
+        "n_out": 1,
+        "candidates": 1,
+        "accepted": 0
+      }
+    },
+    "summary": {
+      "sources_total": 2,
+      "edges_sig": 0,
+      "min_out_count": 1,
+      "B": 200,
+      "fdr_q": 0.05
+    }
+  },
+  "deps": {
+    "pandas": true,
+    "numpy": true,
+    "networkx": true,
+    "matplotlib": true
+  }
+}

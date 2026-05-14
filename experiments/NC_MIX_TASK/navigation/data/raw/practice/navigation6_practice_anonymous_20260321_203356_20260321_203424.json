@@ -1,0 +1,144 @@
+{
+  "timestamp": "2026-03-21T20:34:24.896458",
+  "total_records": 6,
+  "participant_id": "anonymous_20260321_203356",
+  "map_id": "map_1774095558",
+  "session_start_iso": "2026-03-21T20:33:56.149513",
+  "learning_pool_size": 44,
+  "test_pool_size": 22,
+  "phase_transition_criterion": "learning_min_questions=44, test_min_questions=22, test_accuracy_threshold>=0.8, reset_on_failed_test=True",
+  "records": [
+    {
+      "phase": "learning",
+      "trial_index": 1,
+      "map_id": "map_1774095558",
+      "question_id": "map_1774095558|2|instant_transit_next|1|5",
+      "current_code": 2,
+      "action_label": "公交到下一站（线路2）",
+      "correct_next_code": 5,
+      "participant_choice": 5,
+      "correct": true,
+      "rt_ms": 5957.217454910278,
+      "attempt_count": 1,
+      "timestamp": 1774096444.1834826,
+      "options": [
+        5,
+        4,
+        7,
+        1,
+        3
+      ],
+      "first_response_ms": 5957.215309143066
+    },
+    {
+      "phase": "learning",
+      "trial_index": 2,
+      "map_id": "map_1774095558",
+      "question_id": "map_1774095558|4|instant_transit_next|5|6",
+      "current_code": 4,
+      "action_label": "轻轨到下一站（线路2）",
+      "correct_next_code": 6,
+      "participant_choice": 6,
+      "correct": true,
+      "rt_ms": 2356.1832904815674,
+      "attempt_count": 1,
+      "timestamp": 1774096447.7148116,
+      "options": [
+        8,
+        6,
+        4,
+        9,
+        7
+      ],
+      "first_response_ms": 2356.182098388672
+    },
+    {
+      "phase": "learning",
+      "trial_index": 3,
+      "map_id": "map_1774095558",
+      "question_id": "map_1774095558|7|instant_transit_next|3|9",
+      "current_code": 7,
+      "action_label": "地铁到下一站（线路1）",
+      "correct_next_code": 9,
+      "participant_choice": 9,
+      "correct": true,
+      "rt_ms": 1822.601318359375,
+      "attempt_count": 1,
+      "timestamp": 1774096450.7114546,
+      "options": [
+        6,
+        9,
+        5,
+        7,
+        8
+      ],
+      "first_response_ms": 1822.6006031036377
+    },
+    {
+      "phase": "learning",
+      "trial_index": 4,
+      "map_id": "map_1774095558",
+      "question_id": "map_1774095558|3|instant_transit_next|3|1",
+      "current_code": 3,
+      "action_label": "地铁到下一站（线路1）",
+      "correct_next_code": 1,
+      "participant_choice": 1,
+      "correct": true,
+      "rt_ms": 1784.2333316802979,
+      "attempt_count": 1,
+      "timestamp": 1774096453.672221,
+      "options": [
+        7,
+        1,
+        3,
+        5,
+        9
+      ],
+      "first_response_ms": 1784.2330932617188
+    },
+    {
+      "phase": "learning",
+      "trial_index": 5,
+      "map_id": "map_1774095558",
+      "question_id": "map_1774095558|1|instant_transit_next|3|7",
+      "current_code": 1,
+      "action_label": "地铁到下一站（线路1）",
+      "correct_next_code": 7,
+      "participant_choice": 7,
+      "correct": true,
+      "rt_ms": 4356.449365615845,
+      "attempt_count": 1,
+      "timestamp": 1774096459.2105947,
+      "options": [
+        3,
+        4,
+        8,
+        7,
+        6
+      ],
+      "first_response_ms": 4356.44793510437
+    },
+    {
+      "phase": "learning",
+      "trial_index": 6,
+      "map_id": "map_1774095558",
+      "question_id": "map_1774095558|2|instant_transit_next|4|3",
+      "current_code": 2,
+      "action_label": "轻轨到下一站（线路1）",
+      "correct_next_code": 3,
+      "participant_choice": 3,
+      "correct": true,
+      "rt_ms": 1583.786964416504,
+      "attempt_count": 1,
+      "timestamp": 1774096461.9688585,
+      "options": [
+        2,
+        1,
+        6,
+        3,
+        8
+      ],
+      "first_response_ms": 1583.7867259979248
+    }
+  ]
+}

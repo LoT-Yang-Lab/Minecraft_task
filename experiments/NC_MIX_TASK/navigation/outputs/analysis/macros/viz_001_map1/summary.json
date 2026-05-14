@@ -1,0 +1,20 @@
+{
+  "rows_total": 0,
+  "rows_selected_for_graph": 0,
+  "normalize": "sum",
+  "participant_id": "001",
+  "map_id": "map_1773511099",
+  "top_n_edges": 150,
+  "top_k_bar": 20,
+  "outputs": {
+    "edge_table_csv": "d:\\桌面文件夹\\华东师范\\Minecraft8.0\\experiments\\navigation6\\outputs\\analysis\\macros\\viz_001_map1\\edge_table.csv",
+    "network_png": "d:\\桌面文件夹\\华东师范\\Minecraft8.0\\experiments\\navigation6\\outputs\\analysis\\macros\\viz_001_map1\\macro_transition_network.png",
+    "heatmap_png": "d:\\桌面文件夹\\华东师范\\Minecraft8.0\\experiments\\navigation6\\outputs\\analysis\\macros\\viz_001_map1\\macro_transition_heatmap.png",
+    "topk_png": "d:\\桌面文件夹\\华东师范\\Minecraft8.0\\experiments\\navigation6\\outputs\\analysis\\macros\\viz_001_map1\\macro_transition_topk.png"
+  },
+  "warnings": [
+    "无可绘制边，跳过网络图。",
+    "无可绘制边，跳过热力图。",
+    "无可绘制边，跳过 Top-K 条形图。"
+  ]
+}

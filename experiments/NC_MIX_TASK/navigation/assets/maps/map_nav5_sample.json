@@ -1,0 +1,24 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "name": "八方向示例",
+    "author": "",
+    "description": "2x2 房间网格，含对角线门",
+    "created_date": "2026-03-14",
+    "modified_date": "2026-03-14"
+  },
+  "rooms": [
+    {"id": 0, "logical_pos": [0, 0], "seq_id": 1, "doors": ["east", "south", "southeast"], "is_target": false, "is_obstacle": false, "visited": false},
+    {"id": 1, "logical_pos": [1, 0], "seq_id": 2, "doors": ["west", "south", "southwest"], "is_target": false, "is_obstacle": false, "visited": false},
+    {"id": 100, "logical_pos": [0, 1], "seq_id": 3, "doors": ["north", "east", "northeast"], "is_target": false, "is_obstacle": false, "visited": false},
+    {"id": 101, "logical_pos": [1, 1], "seq_id": 4, "doors": ["north", "west", "northwest"], "is_target": true, "is_obstacle": false, "visited": false}
+  ],
+  "obstacle_map": [],
+  "subway_path": [],
+  "subway_stations": [],
+  "portal_pairs": [],
+  "single_cells": [],
+  "single_cell_doors": [],
+  "start_pos": [1, 1],
+  "target_pos": [4, 4]
+}

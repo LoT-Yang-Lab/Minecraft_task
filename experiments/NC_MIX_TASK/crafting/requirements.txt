@@ -1,0 +1,4 @@
+pygame>=2.0.0
+# 可选：用于导出 Excel 日志
+# pandas>=1.0.0
+# openpyxl>=3.0.0

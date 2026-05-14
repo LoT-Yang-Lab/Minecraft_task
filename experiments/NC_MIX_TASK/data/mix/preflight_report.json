@@ -1,0 +1,51 @@
+{
+  "navigation_map_path": "C:\\Users\\tonyj\\Dropbox\\Minecraft8.0\\experiments\\NC_MIX_TASK\\navigation\\assets\\maps\\map_1774095558.json",
+  "navigation_map_id": "map_1774095558",
+  "transition_map_path": "C:\\Users\\tonyj\\Dropbox\\Minecraft8.0\\experiments\\NC_MIX_TASK\\crafting\\data\\maps\\builtin_map_a.json",
+  "ok": true,
+  "checks": [
+    {
+      "name": "linked_navigation_map_id",
+      "value": "map_1774095558"
+    },
+    {
+      "name": "node_coverage",
+      "covered": [
+        "stone_01",
+        "stone_02",
+        "stone_03",
+        "stone_04",
+        "stone_05",
+        "stone_06",
+        "stone_07",
+        "stone_08",
+        "stone_09"
+      ]
+    },
+    {
+      "name": "potion1_edges",
+      "count": 6
+    },
+    {
+      "name": "potion2_edges",
+      "count": 6
+    },
+    {
+      "name": "potion3_edges",
+      "count": 4
+    },
+    {
+      "name": "trial_sequence_path",
+      "value": "C:\\Users\\tonyj\\Dropbox\\Minecraft8.0\\experiments\\NC_MIX_TASK\\navigation\\assets\\trial_sequences\\map_1774095558.json"
+    },
+    {
+      "name": "trial_distance_stats_on_crafting_graph",
+      "total_trials": 27,
+      "min_distance": 1,
+      "max_distance": 2,
+      "lt2_count": 19,
+      "unreachable_count": 0
+    }
+  ],
+  "errors": []
+}

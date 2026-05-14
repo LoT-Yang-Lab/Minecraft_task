@@ -1,0 +1,237 @@
+{
+  "schema": "crafting_practice_v1",
+  "participant_id": "001",
+  "session_start_iso": "2026-04-07T19:19:24.056874",
+  "session_end_iso": "2026-04-07T19:19:40.187203",
+  "duration_sec": 16.13,
+  "transition_map_path": "D:\\桌面文件夹\\华东师范\\Minecraft8.0\\experiments\\crafting\\data\\maps\\builtin_map_a.json",
+  "map_id": "custom",
+  "rules_path": "D:\\桌面文件夹\\华东师范\\Minecraft8.0\\experiments\\crafting\\data\\rules\\crafting_rules_v1.json",
+  "trials_path": "D:\\桌面文件夹\\华东师范\\Minecraft8.0\\experiments\\crafting\\data\\trials\\practice_trial_list_v1.json",
+  "rounds_total": 2,
+  "min_visits": 2,
+  "min_trial_seconds": 300,
+  "round_summaries": [],
+  "steps": [
+    {
+      "round_index": 1,
+      "step_index": 1,
+      "t_sec": 2.299,
+      "from_state": "stone_01",
+      "to_state": "stone_02",
+      "key_symbol": "Q",
+      "explore_rate": 0.2222222222222222,
+      "mastery_rate": 0.0
+    },
+    {
+      "round_index": 1,
+      "step_index": 2,
+      "t_sec": 2.767,
+      "from_state": "stone_02",
+      "to_state": "stone_03",
+      "key_symbol": "Q",
+      "explore_rate": 0.3333333333333333,
+      "mastery_rate": 0.0
+    },
+    {
+      "round_index": 1,
+      "step_index": 3,
+      "t_sec": 3.838,
+      "from_state": "stone_03",
+      "to_state": "stone_02",
+      "key_symbol": "E",
+      "explore_rate": 0.3333333333333333,
+      "mastery_rate": 0.1111111111111111
+    },
+    {
+      "round_index": 1,
+      "step_index": 4,
+      "t_sec": 4.14,
+      "from_state": "stone_02",
+      "to_state": "stone_01",
+      "key_symbol": "E",
+      "explore_rate": 0.3333333333333333,
+      "mastery_rate": 0.2222222222222222
+    },
+    {
+      "round_index": 1,
+      "step_index": 5,
+      "t_sec": 5.517,
+      "from_state": "stone_01",
+      "to_state": "stone_03",
+      "key_symbol": "W",
+      "explore_rate": 0.3333333333333333,
+      "mastery_rate": 0.3333333333333333
+    },
+    {
+      "round_index": 1,
+      "step_index": 6,
+      "t_sec": 5.953,
+      "from_state": "stone_03",
+      "to_state": "stone_09",
+      "key_symbol": "W",
+      "explore_rate": 0.4444444444444444,
+      "mastery_rate": 0.3333333333333333
+    },
+    {
+      "round_index": 1,
+      "step_index": 7,
+      "t_sec": 6.22,
+      "from_state": "stone_09",
+      "to_state": "stone_07",
+      "key_symbol": "W",
+      "explore_rate": 0.5555555555555556,
+      "mastery_rate": 0.3333333333333333
+    },
+    {
+      "round_index": 1,
+      "step_index": 8,
+      "t_sec": 6.652,
+      "from_state": "stone_07",
+      "to_state": "stone_01",
+      "key_symbol": "W",
+      "explore_rate": 0.5555555555555556,
+      "mastery_rate": 0.3333333333333333
+    },
+    {
+      "round_index": 1,
+      "step_index": 9,
+      "t_sec": 7.123,
+      "from_state": "stone_01",
+      "to_state": "stone_03",
+      "key_symbol": "W",
+      "explore_rate": 0.5555555555555556,
+      "mastery_rate": 0.3333333333333333
+    },
+    {
+      "round_index": 1,
+      "step_index": 10,
+      "t_sec": 7.358,
+      "from_state": "stone_03",
+      "to_state": "stone_09",
+      "key_symbol": "W",
+      "explore_rate": 0.5555555555555556,
+      "mastery_rate": 0.4444444444444444
+    },
+    {
+      "round_index": 1,
+      "step_index": 11,
+      "t_sec": 7.591,
+      "from_state": "stone_09",
+      "to_state": "stone_07",
+      "key_symbol": "W",
+      "explore_rate": 0.5555555555555556,
+      "mastery_rate": 0.5555555555555556
+    },
+    {
+      "round_index": 1,
+      "step_index": 12,
+      "t_sec": 8.06,
+      "from_state": "stone_07",
+      "to_state": "stone_01",
+      "key_symbol": "W",
+      "explore_rate": 0.5555555555555556,
+      "mastery_rate": 0.5555555555555556
+    },
+    {
+      "round_index": 1,
+      "step_index": 13,
+      "t_sec": 8.428,
+      "from_state": "stone_01",
+      "to_state": "stone_04",
+      "key_symbol": "A",
+      "explore_rate": 0.6666666666666666,
+      "mastery_rate": 0.5555555555555556
+    },
+    {
+      "round_index": 1,
+      "step_index": 14,
+      "t_sec": 10.342,
+      "from_state": "stone_04",
+      "to_state": "stone_07",
+      "key_symbol": "A",
+      "explore_rate": 0.6666666666666666,
+      "mastery_rate": 0.5555555555555556
+    },
+    {
+      "round_index": 1,
+      "step_index": 15,
+      "t_sec": 10.713,
+      "from_state": "stone_07",
+      "to_state": "stone_04",
+      "key_symbol": "D",
+      "explore_rate": 0.6666666666666666,
+      "mastery_rate": 0.6666666666666666
+    },
+    {
+      "round_index": 1,
+      "step_index": 16,
+      "t_sec": 11.152,
+      "from_state": "stone_04",
+      "to_state": "stone_01",
+      "key_symbol": "D",
+      "explore_rate": 0.6666666666666666,
+      "mastery_rate": 0.6666666666666666
+    },
+    {
+      "round_index": 1,
+      "step_index": 17,
+      "t_sec": 11.955,
+      "from_state": "stone_01",
+      "to_state": "stone_04",
+      "key_symbol": "A",
+      "explore_rate": 0.6666666666666666,
+      "mastery_rate": 0.6666666666666666
+    },
+    {
+      "round_index": 1,
+      "step_index": 18,
+      "t_sec": 12.29,
+      "from_state": "stone_04",
+      "to_state": "stone_07",
+      "key_symbol": "A",
+      "explore_rate": 0.6666666666666666,
+      "mastery_rate": 0.6666666666666666
+    },
+    {
+      "round_index": 1,
+      "step_index": 19,
+      "t_sec": 13.57,
+      "from_state": "stone_07",
+      "to_state": "stone_08",
+      "key_symbol": "Q",
+      "explore_rate": 0.7777777777777778,
+      "mastery_rate": 0.6666666666666666
+    },
+    {
+      "round_index": 1,
+      "step_index": 20,
+      "t_sec": 13.903,
+      "from_state": "stone_08",
+      "to_state": "stone_09",
+      "key_symbol": "Q",
+      "explore_rate": 0.7777777777777778,
+      "mastery_rate": 0.6666666666666666
+    },
+    {
+      "round_index": 1,
+      "step_index": 21,
+      "t_sec": 14.542,
+      "from_state": "stone_09",
+      "to_state": "stone_08",
+      "key_symbol": "E",
+      "explore_rate": 0.7777777777777778,
+      "mastery_rate": 0.7777777777777778
+    },
+    {
+      "round_index": 1,
+      "step_index": 22,
+      "t_sec": 14.777,
+      "from_state": "stone_08",
+      "to_state": "stone_07",
+      "key_symbol": "E",
+      "explore_rate": 0.7777777777777778,
+      "mastery_rate": 0.7777777777777778
+    }
+  ]
+}

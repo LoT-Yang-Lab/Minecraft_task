@@ -1,0 +1,25 @@
+{
+  "schema": "crafting_trial_list",
+  "version": "1.0",
+  "description": "练习阶段：多 trial 轮换起始石块（order 逻辑由 practice_mode 关闭）。",
+  "trials": [
+    {
+      "trial_id": "practice_start_01",
+      "order_count": 1,
+      "seed": 9101,
+      "raws": ["stone_01"]
+    },
+    {
+      "trial_id": "practice_start_05",
+      "order_count": 1,
+      "seed": 9105,
+      "raws": ["stone_05"]
+    },
+    {
+      "trial_id": "practice_start_09",
+      "order_count": 1,
+      "seed": 9109,
+      "raws": ["stone_09"]
+    }
+  ]
+}

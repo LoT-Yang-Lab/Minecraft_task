@@ -1,0 +1,270 @@
+{
+  "session_start": "2026-03-28T16:32:43.814087",
+  "session_end": "2026-03-28T16:32:44.961719",
+  "steps": [],
+  "test_trials": [
+    [
+      7,
+      6
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      9,
+      4
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      6,
+      4
+    ],
+    [
+      9,
+      5
+    ],
+    [
+      6,
+      1
+    ],
+    [
+      5,
+      2
+    ],
+    [
+      6,
+      1
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      9,
+      4
+    ],
+    [
+      7,
+      6
+    ]
+  ],
+  "session_metadata": {
+    "order": "navigation-first",
+    "session": 5,
+    "seed": 5105,
+    "domain": "mixed",
+    "navigation_trials": [
+      {
+        "index": 1,
+        "pair_id": "T06",
+        "category": "tie",
+        "start": 7,
+        "goal": 6,
+        "d_grid": 3,
+        "d_loop": 3,
+        "grid_paths": 3,
+        "loop_paths": 1,
+        "multiplicity": 3
+      },
+      {
+        "index": 2,
+        "pair_id": "L08",
+        "category": "loop",
+        "start": 4,
+        "goal": 3,
+        "d_grid": 3,
+        "d_loop": 2,
+        "grid_paths": 3,
+        "loop_paths": 1,
+        "multiplicity": 1
+      },
+      {
+        "index": 3,
+        "pair_id": "L15",
+        "category": "loop",
+        "start": 9,
+        "goal": 4,
+        "d_grid": 3,
+        "d_loop": 2,
+        "grid_paths": 3,
+        "loop_paths": 1,
+        "multiplicity": 1
+      },
+      {
+        "index": 4,
+        "pair_id": "L01",
+        "category": "loop",
+        "start": 1,
+        "goal": 3,
+        "d_grid": 2,
+        "d_loop": 1,
+        "grid_paths": 1,
+        "loop_paths": 1,
+        "multiplicity": 1
+      },
+      {
+        "index": 5,
+        "pair_id": "G31",
+        "category": "grid",
+        "start": 6,
+        "goal": 4,
+        "d_grid": 2,
+        "d_loop": 3,
+        "grid_paths": 1,
+        "loop_paths": 1,
+        "multiplicity": 1
+      },
+      {
+        "index": 6,
+        "pair_id": "G46",
+        "category": "grid",
+        "start": 9,
+        "goal": 5,
+        "d_grid": 2,
+        "d_loop": 3,
+        "grid_paths": 2,
+        "loop_paths": 2,
+        "multiplicity": 2
+      },
+      {
+        "index": 7,
+        "pair_id": "T05",
+        "category": "tie",
+        "start": 6,
+        "goal": 1,
+        "d_grid": 3,
+        "d_loop": 3,
+        "grid_paths": 3,
+        "loop_paths": 1,
+        "multiplicity": 3
+      },
+      {
+        "index": 8,
+        "pair_id": "G22",
+        "category": "grid",
+        "start": 5,
+        "goal": 2,
+        "d_grid": 1,
+        "d_loop": 4,
+        "grid_paths": 1,
+        "loop_paths": 4,
+        "multiplicity": 1
+      },
+      {
+        "index": 9,
+        "pair_id": "T05",
+        "category": "tie",
+        "start": 6,
+        "goal": 1,
+        "d_grid": 3,
+        "d_loop": 3,
+        "grid_paths": 3,
+        "loop_paths": 1,
+        "multiplicity": 3
+      },
+      {
+        "index": 10,
+        "pair_id": "G26",
+        "category": "grid",
+        "start": 5,
+        "goal": 7,
+        "d_grid": 2,
+        "d_loop": 3,
+        "grid_paths": 2,
+        "loop_paths": 2,
+        "multiplicity": 2
+      },
+      {
+        "index": 11,
+        "pair_id": "L15",
+        "category": "loop",
+        "start": 9,
+        "goal": 4,
+        "d_grid": 3,
+        "d_loop": 2,
+        "grid_paths": 3,
+        "loop_paths": 1,
+        "multiplicity": 1
+      },
+      {
+        "index": 12,
+        "pair_id": "T06",
+        "category": "tie",
+        "start": 7,
+        "goal": 6,
+        "d_grid": 3,
+        "d_loop": 3,
+        "grid_paths": 3,
+        "loop_paths": 1,
+        "multiplicity": 3
+      }
+    ],
+    "crafting_placeholders": [
+      {
+        "index": 1,
+        "task_id": "S5_craft_01",
+        "recipe": "craft_table"
+      },
+      {
+        "index": 2,
+        "task_id": "S5_craft_02",
+        "recipe": "forge_sword"
+      },
+      {
+        "index": 3,
+        "task_id": "S5_craft_03",
+        "recipe": "cook_stew"
+      },
+      {
+        "index": 4,
+        "task_id": "S5_craft_04",
+        "recipe": "cook_stew"
+      },
+      {
+        "index": 5,
+        "task_id": "S5_craft_05",
+        "recipe": "assemble_cart"
+      },
+      {
+        "index": 6,
+        "task_id": "S5_craft_06",
+        "recipe": "cook_stew"
+      },
+      {
+        "index": 7,
+        "task_id": "S5_craft_07",
+        "recipe": "craft_table"
+      },
+      {
+        "index": 8,
+        "task_id": "S5_craft_08",
+        "recipe": "smelt_ingot"
+      },
+      {
+        "index": 9,
+        "task_id": "S5_craft_09",
+        "recipe": "cook_stew"
+      },
+      {
+        "index": 10,
+        "task_id": "S5_craft_10",
+        "recipe": "craft_table"
+      },
+      {
+        "index": 11,
+        "task_id": "S5_craft_11",
+        "recipe": "brew_potion"
+      },
+      {
+        "index": 12,
+        "task_id": "S5_craft_12",
+        "recipe": "forge_sword"
+      }
+    ],
+    "notes": "Crafting trials skipped; only navigation trials executed in Graph9 UI."
+  }
+}
