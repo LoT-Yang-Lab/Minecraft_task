@@ -351,7 +351,7 @@ class GameCrafting:
                 reaction_time_ms=rt_ms,
                 source_key=source_key or "?",
             )
-            self.last_status_message = f"{action.label} → {display_name(self.current_state_id)}"
+            self.last_status_message = f"{action.label}"
             return True
 
         target = self.current_target()
@@ -389,7 +389,7 @@ class GameCrafting:
             if trial_done:
                 self.start_next_trial()
         else:
-            self.last_status_message = f"{action.label} → {display_name(self.current_state_id)}"
+            self.last_status_message = f"{action.label}"
         return True
 
     def dismiss_order_complete_overlay(self) -> None:

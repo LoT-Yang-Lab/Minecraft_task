@@ -589,7 +589,7 @@ def main() -> None:
         y = _draw_wrapped(
             screen,
             font_sm,
-            f"当前站点：{code_to_station_name(current_code)}",
+            "当前站点：",
             text_left,
             y,
             text_w,

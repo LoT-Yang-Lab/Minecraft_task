@@ -359,10 +359,6 @@ class _VisGraphWidget:
             # 绘制移动中的节点标记
             pygame.draw.circle(screen, (255, 255, 255), (int(anim_x), int(anim_y)), _VIS_NODE_RADIUS)
             pygame.draw.circle(screen, color, (int(anim_x), int(anim_y)), _VIS_NODE_RADIUS, 3)
-            label = code_to_station_name(current_node)
-            txt = font_sm.render(label, True, (40, 40, 50))
-            txt_r = txt.get_rect(center=(int(anim_x), int(anim_y)))
-            screen.blit(txt, txt_r)
             return
 
         # 正常绘制：当前节点在中心，周围是全部5种动作的线
@@ -438,10 +434,6 @@ class _VisGraphWidget:
         # 绘制中心节点
         pygame.draw.circle(screen, (255, 255, 255), (cx, cy), _VIS_NODE_RADIUS)
         pygame.draw.circle(screen, (100, 140, 220), (cx, cy), _VIS_NODE_RADIUS, 3)
-        node_label = code_to_station_name(current_node)
-        node_surf = font_sm.render(node_label, True, (40, 40, 50))
-        node_rect = node_surf.get_rect(center=(cx, cy))
-        screen.blit(node_surf, node_rect)
 
         # 图例（按交通工具类型，3 种）
         legend_x = self.rect.x + 8
@@ -468,11 +460,11 @@ def _render_train_phase(
     y = _blit_wrapped(screen, font_lg, "训练阶段 — 自由探索", (220, 220, 255), pad_x, y, text_max_w)
     y += 8
     y = _blit_wrapped(screen, font_md,
-        f"当前位置：{code_to_station_name(current_node)}",
+        "当前位置：",
         (180, 230, 180), pad_x, y, text_max_w)
     y += 4
     y = _blit_wrapped(screen, font_md,
-        f"目标位置：{code_to_station_name(train_goal)}",
+        "目标位置：",
         (230, 200, 180), pad_x, y, text_max_w)
     y += 8
     # 探索率进度条
@@ -518,11 +510,11 @@ def _render_test_phase(
         (190, 210, 230), pad_x, y, text_max_w)
     y += 4
     y = _blit_wrapped(screen, font_md,
-        f"当前位置：{code_to_station_name(test_current_node)}",
+        "当前位置：",
         (180, 230, 180), pad_x, y, text_max_w)
     y += 4
     y = _blit_wrapped(screen, font_md,
-        f"目标位置：{code_to_station_name(test_goal_node)}",
+        "目标位置：",
         (255, 200, 160), pad_x, y, text_max_w)
     y += 4
     y = _blit_wrapped(screen, font_sm,
@@ -559,8 +551,7 @@ def _render_finished_phase(
         s, g = test_trials[i]
         opt = bfs_distance(s, g)
         y = _blit_wrapped(screen, font_sm,
-            f"  试次 {i+1}：{code_to_station_name(s)} → {code_to_station_name(g)}"
-            f"  步数 {steps}（最短 {opt}）",
+            f"  试次 {i+1}：步数 {steps}（最短 {opt}）",
             (190, 200, 210), pad_x, y, text_max_w)
         y += 2
     y += 12
@@ -715,7 +706,7 @@ def main(
                 # 启动动画
                 vis_widget.start_animation(action, current_node, dest)
                 last_action_msg = (
-                    f"执行「{action}」→ 移动到 {code_to_station_name(dest)}"
+                    f"执行「{action}」"
                 )
                 current_node = dest
                 if current_node == train_goal:

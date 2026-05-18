@@ -197,7 +197,7 @@ class PracticeUIKeyedLearning(PracticeUI):
         pygame.draw.rect(self.screen, (70, 76, 90), card_rect, 1, border_radius=12)
         inner_x = card_rect.x + CARD_PADDING
         inner_y = card_rect.y + CARD_PADDING
-        txt = self.font_md.render(f"当前站点：{code_to_station_name(q.current_code)}", True, (220, 222, 235))
+        txt = self.font_md.render("当前站点：", True, (220, 222, 235))
         self.screen.blit(txt, (inner_x, inner_y))
         action_txt = self.font_sm.render(f"本题动作：{q.action_label}", True, (180, 190, 210))
         self.screen.blit(action_txt, (inner_x, inner_y + 32))
@@ -256,13 +256,13 @@ class PracticeUIKeyedLearning(PracticeUI):
             elif self.feedback == "wrong":
                 bc = (239, 68, 68)
             pygame.draw.rect(self.screen, bc, panel, 2, border_radius=10)
-            dest_name = code_to_station_name(q.correct_next_code)
+            dest_name = ""
             ly = panel.y + 10
             ans_title = self.font_sm.render("答案（执行本题动作后，成功到达）", True, (190, 195, 210))
             self.screen.blit(ans_title, (panel.x + 12, ly))
             ly += 24
             row_top = ly
-            l_main = self.font_md.render(f"下一站：{dest_name}", True, (240, 245, 255))
+            l_main = self.font_md.render("下一站：", True, (240, 245, 255))
             raw_next = self._station_icons_raw.get(q.correct_next_code)
             icon_col_w = 0
             if raw_next:
@@ -275,9 +275,8 @@ class PracticeUIKeyedLearning(PracticeUI):
             self.screen.blit(l_main, tr)
             ly = row_top + max(REVEAL_NEXT_STATION_ICON_MAX, l_main.get_height()) + 10
             if self.feedback == "wrong":
-                chosen = actions[self.keyed_chosen_action_idx]
                 wrong_hint = self.font_sm.render(
-                    f"错误答案，您所选动作会到达：{code_to_station_name(chosen[5])}",
+                    "错误答案，请重试",
                     True,
                     (230, 200, 200),
                 )

@@ -219,52 +219,28 @@ class PracticeUI:
         self.phase_switch_timer: float = 0.0
 
     def _draw_station_block(self, code: int, rect: pygame.Rect, border_color: tuple) -> None:
-        """绘制站点块：上方水果图、下方站名，避免重叠。"""
+        """绘制站点块：只显示图标（居中），不再显示站名文本。"""
         pygame.draw.rect(self.screen, (50, 54, 62), rect, border_radius=8)
         pygame.draw.rect(self.screen, border_color, rect, 2, border_radius=8)
-        label = code_to_station_name(code)
         pad = 6
-        text = self.font_station_block.render(label, True, (220, 222, 235))
-        text_h = text.get_height()
-        bottom_reserve = text_h + pad + 4
-        icon_area_h = max(10, rect.h - bottom_reserve)
-        icon_max = max(8, min(rect.w - 2 * pad, icon_area_h - 2))
+        icon_max = max(8, min(rect.w - 2 * pad, rect.h - 2 * pad))
         raw = self._station_icons_raw.get(code)
         if raw and icon_max >= 10:
             draw_ic = _scale_surface_uniform_to_max_side(raw, icon_max)
-            icon_top = rect.y + pad
-            ir = draw_ic.get_rect(centerx=rect.centerx, top=icon_top)
-            if ir.bottom > rect.bottom - bottom_reserve:
-                ir.centery = rect.y + pad + icon_area_h // 2
+            ir = draw_ic.get_rect(center=rect.center)
             self.screen.blit(draw_ic, ir)
-            tr = text.get_rect(centerx=rect.centerx, bottom=rect.bottom - pad)
-            self.screen.blit(text, tr)
-        else:
-            tr = text.get_rect(center=rect.center)
-            self.screen.blit(text, tr)
 
     def _draw_station_block_in_slot(self, code: int, inner: pygame.Rect, border_color: tuple) -> None:
-        """答案槽内块：略小的字号与图标上限，布局同 _draw_station_block。"""
+        """答案槽内块：只显示图标（居中），不再显示站名。"""
         pygame.draw.rect(self.screen, (50, 54, 62), inner, border_radius=8)
         pygame.draw.rect(self.screen, border_color, inner, 2, border_radius=8)
-        label = code_to_station_name(code)
         pad = 5
-        text = self.font_station_block.render(label, True, (220, 222, 235))
-        bottom_reserve = text.get_height() + pad + 4
-        icon_area_h = max(8, inner.h - bottom_reserve)
-        icon_max = max(8, min(SLOT_INNER_ICON_MAX, inner.w - 2 * pad, icon_area_h - 2))
+        icon_max = max(8, min(SLOT_INNER_ICON_MAX, inner.w - 2 * pad, inner.h - 2 * pad))
         raw = self._station_icons_raw.get(code)
         if raw:
             draw_ic = _scale_surface_uniform_to_max_side(raw, icon_max)
-            ir = draw_ic.get_rect(centerx=inner.centerx, top=inner.y + pad)
-            if ir.bottom > inner.bottom - bottom_reserve:
-                ir.centery = inner.y + pad + icon_area_h // 2
+            ir = draw_ic.get_rect(center=inner.center)
             self.screen.blit(draw_ic, ir)
-            tr = text.get_rect(centerx=inner.centerx, bottom=inner.bottom - pad)
-            self.screen.blit(text, tr)
-        else:
-            tr = text.get_rect(center=inner.center)
-            self.screen.blit(text, tr)
 
     def _draw_coordinate_axis(self, screen_w: int, screen_h: int) -> None:
         """Navigation6 无东南西北步行，不绘制方向坐标系。"""
@@ -544,7 +520,7 @@ class PracticeUI:
         pygame.draw.rect(self.screen, (70, 76, 90), card_rect, 1, border_radius=12)
         inner_x = card_rect.x + CARD_PADDING
         inner_y = card_rect.y + CARD_PADDING
-        txt = self.font_md.render(f"当前站点：{code_to_station_name(q.current_code)}", True, (220, 222, 235))
+        txt = self.font_md.render("当前站点：", True, (220, 222, 235))
         self.screen.blit(txt, (inner_x, inner_y))
         action_txt = self.font_sm.render(f"动作：{q.action_label}", True, (180, 190, 210))
         self.screen.blit(action_txt, (inner_x, inner_y + 32))

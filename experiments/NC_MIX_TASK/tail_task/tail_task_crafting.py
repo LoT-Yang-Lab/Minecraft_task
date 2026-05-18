@@ -259,30 +259,24 @@ def build_phase_D() -> List[Dict[str, Any]]:
 # ============================================================
 
 def build_phase_E() -> List[Dict[str, Any]]:
-    raw = [
-        (1, 5), (1, 8), (1, 9),
-        (2, 6), (2, 7), (2, 8),
-        (3, 1), (3, 5), (3, 8),
-        (4, 2), (4, 3), (4, 9),
-        (5, 3), (5, 7), (5, 9),
-        (6, 2), (6, 4), (6, 7),
-        (7, 3), (7, 5), (7, 6),
-        (8, 1), (8, 4), (8, 6),
-        (9, 1), (9, 2), (9, 4),
-    ]
+    """Phase E：仅考虑 Q/E + A/D（不含 W）时，起讫之间在
+    3×3 网格上的最短距离 ≥ 3 的全部有向对（20 个）。"""
+    raw: List[Tuple[int, int]] = []
+    for s in ALL_NODE_IDS:
+        for e in ALL_NODE_IDS:
+            if s == e:
+                continue
+            if _grid_distance(s, e) >= 3:
+                raw.append((s, e))
     for s, e in raw:
         assert e not in _direct_targets(s), f"({s},{e}) 是一站直连"
-    from collections import Counter
-    end_ct = Counter(e for _, e in raw)
-    start_ct = Counter(s for s, _ in raw)
-    assert all(end_ct[i] == 3 for i in ALL_NODE_IDS), end_ct
-    assert all(start_ct[i] == 3 for i in ALL_NODE_IDS), start_ct
 
     trials = []
     for i, (s, e) in enumerate(raw, 1):
         trials.append({
             "id": f"E-{i:02d}", "phase": "E",
             "start": s, "end": e,
+            "grid_distance": _grid_distance(s, e),
         })
     return trials
 
@@ -422,46 +416,39 @@ def _serialize_trial_for_client(t: Dict[str, Any]) -> Dict[str, Any]:
     if phase == "intro":
         intros = {
             "B": {
-                "title": "阶段 B · 石块间距离判断（共 36 题）",
+                "title": "阶段 B · 两块石头间多容易到达（共 36 题）",
                 "body": (
-                    "你将看到 36 对石头（C(9,2) 全枚举，每对出现一次）。\n"
-                    "请回答：**这两块石头之间最少需要走几步？**\n\n"
-                    "“一步”指在 3×3 网格上按一次方向键：\n"
-                    "  · **Q / E 键**（蓝色箭头，行内左右一步双向）\n"
-                    "  · **A / D 键**（绿色箭头，列内上下一步双向）\n\n"
-                    "本阶段**不考虑 W 键**（紫色 4 角顺时针环线），\n"
-                    "仅按 Q/E + A/D 组成的 3×3 网格计算距离，最远 4 步。\n\n"
-                    "  ①  1 步（相邻，一步直达）\n"
-                    "  ②  2 步\n"
-                    "  ③  3 步\n"
-                    "  ④  4 步（最远）\n\n"
-                    "选完后请用 1–5 报告你的把握程度。"
+                    "你将看到 36 对石头。\n"
+                    "请回答：**这两块石头之间多容易到达？**\n\n"
+                    "请凭直觉用 1–5 进行评价：\n"
+                    "  ①  非常难到达\n"
+                    "  ②  比较难到达\n"
+                    "  ③  一般\n"
+                    "  ④  比较容易到达\n"
+                    "  ⑤  非常容易到达"
                 ),
             },
             "D": {
-                "title": "阶段 D · 动作序列流畅度（共 20 题）",
+                "title": "阶段 D · 动作组整体性评分（共 20 题）",
                 "body": (
-                    "你将看到 20 段连续动作（石块序列 + 彩色箭头）。\n"
-                    "箭头颜色与运行时地图一致：\n"
-                    "  · Q 键 (深蓝, 向左) / E 键 (浅蓝, 向右)\n"
-                    "  · A 键 (深绿, 向上) / D 键 (浅绿, 向下)\n"
-                    "  · W 键 (紫色, 仅 4 角顺时针单向)\n\n"
-                    "请用 1–5 评价：**这一连串动作像不像一个习惯成自然的整体？**\n\n"
-                    "  ①  完全是临时拼出来的\n"
-                    "  ②  比较生硬\n"
+                    "你将看到 20 段动作序列：仅展示起点与终点石头，\n中间过程仅以动作箭头拼接（中间石头不显示）。\n"
+                    "箭头颜色对应交通线路；同一线路下：\n"
+                    "  · **实线** = 正向（E 键 / D 键 / W 键）\n"
+                    "  · **虚线** = 反向（Q 键 / A 键）\n\n"
+                    "请用 1–5 评价：**以下动作组在你眼里多大程度上可以构成一个整体？**\n\n"
+                    "  ①  完全不像一个整体\n"
+                    "  ②  比较松散\n"
                     "  ③  一般\n"
-                    "  ④  比较顺畅\n"
-                    "  ⑤  反射式整体（脱口而出）"
+                    "  ④  比较像一个整体\n"
+                    "  ⑤  完全像一个整体（脱口而出）"
                 ),
             },
             "E": {
-                "title": "阶段 E · 中转石块（共 27 题）",
+                "title": "阶段 E · 中转石块（共 20 题）",
                 "body": (
-                    "你将看到 (起点石块, 终点石块) 任务（起讫之间无法一步直达 ——\n"
-                    "既不能用 Q/E 键一步、也不能用 A/D 键一步、也不能用 W 键一步到达）。\n\n"
+                    "你将看到一对 (起点石块, 终点石块)，二者之间距离较远。\n\n"
                     "请回答：**你脑子里最先想到要先经过的中间石块**是哪块？\n"
-                    "（从起讫之外的 7 块石头里挑 1 个）\n\n"
-                    "选完后请用 1–5 报告你的把握程度。"
+                    "（从起讫之外的 7 块石头里挑 1 个）"
                 ),
             },
         }
@@ -559,15 +546,15 @@ def api_respond():
     }
 
     if phase == "B":
-        resp = int(data.get("response"))    # 1..4
-        conf = int(data.get("confidence"))  # 1..5
+        # 5 级 Likert（多容易到达），无置信评分
+        resp = int(data.get("response"))    # 1..5
         record.update({
             "category": t["category"],
             "stimulus": f"{t['a']}<->{t['b']}",
             "response": resp,
-            "confidence": conf,
+            "confidence": "",
             "true_answer": t["true_answer"],
-            "is_correct": int(resp == t["true_answer"]),
+            "is_correct": "",
         })
     elif phase == "D":
         resp = int(data.get("response"))    # 1..5（Likert）
@@ -582,12 +569,11 @@ def api_respond():
         })
     elif phase == "E":
         chosen = int(data.get("chosen"))
-        conf = int(data.get("confidence"))
         record.update({
             "category": "E",
             "stimulus": f"{t['start']}->{t['end']}",
             "response": chosen,
-            "confidence": conf,
+            "confidence": "",
         })
 
     SESSION["responses"].append(record)
@@ -799,18 +785,18 @@ function stoneTile(node, size=56) {
           </span>`;
 }
 
-function stoneBlock(node, size=56, withName=true) {
+function stoneBlock(node, size=56, withName=false) {
+  // 仅保留石头图像，不再显示名称文本
   const tile = stoneTile(node, size);
-  const nm = withName ? `<span class="nm">${node.label}</span>` : '';
-  return `<span class="stone-with-name">${tile}${nm}</span>`;
+  return `<span class="stone-with-name">${tile}</span>`;
 }
 
 function stoneInline(node, size=40) {
   return stoneTile(node, size);
 }
 
-// 颜色箭头 SVG（双向 ↔ 或单向 →）
-function arrowSvg(color, directed, w=64, h=22) {
+// 颜色箭头 SVG：dashed=true 用虚线表示反向；directed=true 则仅右端箭头。
+function arrowSvg(color, directed, w=64, h=22, dashed=false) {
   const y = h/2;
   const lineX1 = directed ? 4 : 10;
   const lineX2 = w - 10;
@@ -819,40 +805,41 @@ function arrowSvg(color, directed, w=64, h=22) {
     leftHead = `<polygon points="4,${y} 14,${y-6} 14,${y+6}" fill="${color}"/>`;
   }
   const rightHead = `<polygon points="${w-4},${y} ${w-14},${y-6} ${w-14},${y+6}" fill="${color}"/>`;
+  const dashAttr = dashed ? ' stroke-dasharray="6 4"' : '';
   return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
-    <line x1="${lineX1}" y1="${y}" x2="${lineX2}" y2="${y}" stroke="${color}" stroke-width="4"/>
+    <line x1="${lineX1}" y1="${y}" x2="${lineX2}" y2="${y}" stroke="${color}" stroke-width="4"${dashAttr}/>
     ${leftHead}${rightHead}
   </svg>`;
 }
 
 const LINE_COLORS = {
-  bus_q:      '#1E5FE6',
-  bus_e:      '#6FA8FF',
-  subway_a:   '#2E9F4A',
-  subway_d:   '#6BD884',
+  bus_q:      '#3CA0FF',
+  bus_e:      '#3CA0FF',
+  subway_a:   '#50C878',
+  subway_d:   '#50C878',
   rapidbus_w: '#C84BD8',
 };
-const LINE_LABELS = {
-  bus_q:      'Q键',
-  bus_e:      'E键',
-  subway_a:   'A键',
-  subway_d:   'D键',
-  rapidbus_w: 'W键',
-};
+const REVERSE_ACTIONS = new Set(['bus_q', 'subway_a']);
+const DIRECTED_ACTIONS = new Set(['rapidbus_w']);
+
 function sequenceHTML(nodes, actions) {
+  // 仅在两端显示起点与终点石块，中间只用动作箭头拼接（不显示中间石块与文字）。
+  // 同一线路同颜色；**实线 = 正向** (E/D/W)，**虚线 = 反向** (Q/A)
   let html = '';
-  for (let i = 0; i < nodes.length; i++) {
-    html += stoneBlock(nodes[i], 50, false);
-    if (i < actions.length) {
-      const ln = actions[i];
-      const directed = (ln === 'rapidbus_w');
-      const color = LINE_COLORS[ln] || '#888';
-      const label = LINE_LABELS[ln] || ln;
-      html += `<span class="stone-with-name" style="margin:0 4px;">
-                 <span>${arrowSvg(color, directed, 80, 22)}</span>
-                 <span class="nm" style="color:${color};">${label}</span>
-               </span>`;
-    }
+  if (nodes && nodes.length > 0) {
+    html += `<span style="display:inline-flex;align-items:center;margin:0 6px;">${stoneBlock(nodes[0], 64)}</span>`;
+  }
+  for (let i = 0; i < actions.length; i++) {
+    const ln = actions[i];
+    const directed = DIRECTED_ACTIONS.has(ln);
+    const dashed = REVERSE_ACTIONS.has(ln);
+    const color = LINE_COLORS[ln] || '#888';
+    html += `<span style="display:inline-flex;align-items:center;margin:0 6px;">
+               ${arrowSvg(color, directed, 90, 24, dashed)}
+             </span>`;
+  }
+  if (nodes && nodes.length > 1) {
+    html += `<span style="display:inline-flex;align-items:center;margin:0 6px;">${stoneBlock(nodes[nodes.length - 1], 64)}</span>`;
   }
   return html;
 }
@@ -909,32 +896,30 @@ function render(payload) {
         <span class="arrow">↔</span>
         ${stoneBlock(payload.right, 64, false)}
       </div>
-      <div class="question">仅按 <b>Q/E 键</b> + <b>A/D 键</b>（不含 <b>W 键</b>）走网格，
-        <b>这两块石头之间最少需要走几步？</b></div>
+      <div class="question"><b>这两块石头之间多容易到达？</b></div>
       <div class="opts" id="opts">
-        <div class="opt-btn" data-v="1"><span class="badge">①</span> 1 步（相邻，一步直达）</div>
-        <div class="opt-btn" data-v="2"><span class="badge">②</span> 2 步</div>
-        <div class="opt-btn" data-v="3"><span class="badge">③</span> 3 步</div>
-        <div class="opt-btn" data-v="4"><span class="badge">④</span> 4 步（最远）</div>
+        <div class="opt-btn" data-v="1"><span class="badge">①</span> 非常难到达</div>
+        <div class="opt-btn" data-v="2"><span class="badge">②</span> 比较难到达</div>
+        <div class="opt-btn" data-v="3"><span class="badge">③</span> 一般</div>
+        <div class="opt-btn" data-v="4"><span class="badge">④</span> 比较容易到达</div>
+        <div class="opt-btn" data-v="5"><span class="badge">⑤</span> 非常容易到达</div>
       </div>
-      ${confHTML()}
       ${submitHTML()}`;
-    bindOpts("opts", v => selectedResponse = parseInt(v));
-    bindConf();
+    bindOpts("opts", v => { selectedResponse = parseInt(v); selectedConfidence = 0; });
     return;
   }
 
   if (payload.kind === "trial_D") {
     root.innerHTML = `
       <div class="progress">${prog}</div>
-      <div class="question">这一连串动作像不像一个<b>习惯成自然的整体</b>？</div>
+      <div class="question">以下动作组在你眼里<b>多大程度上可以构成一个整体</b>？</div>
       <div class="seq-display">${sequenceHTML(payload.sequence, payload.actions)}</div>
       <div class="opts" id="opts">
-        <div class="opt-btn" data-v="1"><span class="badge">①</span> 完全是临时拼出来的</div>
-        <div class="opt-btn" data-v="2"><span class="badge">②</span> 比较生硬</div>
+        <div class="opt-btn" data-v="1"><span class="badge">①</span> 完全不像一个整体</div>
+        <div class="opt-btn" data-v="2"><span class="badge">②</span> 比较松散</div>
         <div class="opt-btn" data-v="3"><span class="badge">③</span> 一般</div>
-        <div class="opt-btn" data-v="4"><span class="badge">④</span> 比较顺畅</div>
-        <div class="opt-btn" data-v="5"><span class="badge">⑤</span> 反射式整体（脱口而出）</div>
+        <div class="opt-btn" data-v="4"><span class="badge">④</span> 比较像一个整体</div>
+        <div class="opt-btn" data-v="5"><span class="badge">⑤</span> 完全像一个整体（脱口而出）</div>
       </div>
       ${submitHTML()}`;
     bindOpts("opts", v => { selectedResponse = parseInt(v); selectedConfidence = 0; });
@@ -958,10 +943,8 @@ function render(payload) {
         ${stoneBlock(payload.end, 64, false)}
       </div>
       <div class="candidate-grid" id="opts">${candHtml}</div>
-      ${confHTML()}
       ${submitHTML()}`;
-    bindOpts("opts", v => selectedResponse = parseInt(v));
-    bindConf();
+    bindOpts("opts", v => { selectedResponse = parseInt(v); selectedConfidence = 0; });
     return;
   }
 }
@@ -1005,11 +988,8 @@ function bindConf() {
 function maybeEnableSubmit() {
   const btn = document.getElementById("submit-btn");
   if (!btn) return;
-  if (currentPayload && currentPayload.kind === "trial_D") {
-    btn.disabled = (selectedResponse === null);
-  } else {
-    btn.disabled = (selectedResponse === null || selectedConfidence === null);
-  }
+  // 所有阶段均不再要求置信评分，仅需选择响应。
+  btn.disabled = (selectedResponse === null);
 }
 
 async function submitTrial() {
@@ -1017,12 +997,10 @@ async function submitTrial() {
   const body = { rt_ms };
   if (currentPayload.kind === "trial_B") {
     body.response = selectedResponse;
-    body.confidence = selectedConfidence;
   } else if (currentPayload.kind === "trial_D") {
     body.response = selectedResponse;
   } else if (currentPayload.kind === "trial_E") {
     body.chosen = selectedResponse;
-    body.confidence = selectedConfidence;
   }
   const r = await fetch("/api/respond", {
     method: "POST", headers: {"Content-Type": "application/json"},

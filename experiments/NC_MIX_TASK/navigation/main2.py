@@ -1002,14 +1002,14 @@ def main(
                     text_max_w,
                 )
                 y += 4
-            cur_text = f"当前位置：{code_to_station_name(current_code)}"
+            cur_text = "当前位置："
             cur_surf = font_md.render(cur_text, True, (180, 230, 180))
             screen.blit(cur_surf, (pad_x, y))
             cur_icon_x = min(pad_x + cur_surf.get_width() + 10, W - 70)
             draw_station_shape(screen, current_code, cur_icon_x + 16, y + font_md.get_linesize() // 2, size=12)
             y += max(font_md.get_linesize() + 2, 40) + 2
 
-            goal_text = f"目标位置：{code_to_station_name(test_goal_node)}"
+            goal_text = "目标位置："
             goal_surf = font_md.render(goal_text, True, (255, 200, 160))
             screen.blit(goal_surf, (pad_x, y))
             goal_icon_x = min(pad_x + goal_surf.get_width() + 10, W - 70)
@@ -1073,7 +1073,7 @@ def main(
                 y = _blit_wrapped(
                     screen,
                     font_sm,
-                    f"  试次 {i + 1}：{code_to_station_name(s0)} → {code_to_station_name(g0)}  步数 {steps}（最短 {opt}，结果 {outcome}）",
+                    f"  试次 {i + 1}：步数 {steps}（最短 {opt}，结果 {outcome}）",
                     (190, 200, 210),
                     pad_x,
                     y,

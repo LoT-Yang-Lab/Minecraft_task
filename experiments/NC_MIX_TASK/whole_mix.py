@@ -434,7 +434,7 @@ def _run_nav_practice(
         y += 8
         y = _draw_wrapped(
             screen, font_sm,
-            f"当前站点：{code_to_station_name(current_code)}",
+            "当前站点：",
             tx, y, tw, (180, 230, 180),
         )
         y += 10
